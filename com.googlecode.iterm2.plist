@@ -1343,8 +1343,6 @@
 			<string>kNextWindowPointerAction</string>
 		</dict>
 	</dict>
-	<key>PrefsCustomFolder</key>
-	<string>/Users/pivotal/go/src/github.com/pivotal-cf-experimental/releng-workspace</string>
 	<key>Print In Black And White</key>
 	<true/>
 	<key>SUAutomaticallyUpdate</key>

@@ -1,5 +1,5 @@
-# releng-workspace
-workspace configuration for all things releng.
+# c2c-workspace
+workspace configuration for all things c2c.
 
 # why?
 there are a whole host of tools to setup workstations but none are simple,

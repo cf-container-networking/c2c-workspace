@@ -1,4 +1,7 @@
-#!/bin/bash -e
+#!/bin/bash
+
+set -e
+set -u
 
 function confirm() {
   read -r -p "Are you sure? [y/N] " response
@@ -68,8 +71,8 @@ pip3 install -q yamllint
 echo "Symlink the git-authors file to .git-authors..."
 ln -sf $(pwd)/git-authors ${HOME}/.git-authors
 
-echo "Copy the releng.bash file into .bash_profile"
-ln -sf $(pwd)/releng.bash ${HOME}/.bash_profile
+echo "Copy the shared.bash file into .bash_profile"
+ln -sf $(pwd)/shared.bash ${HOME}/.bash_profile
 
 echo "Copy the gitconfig file into ~/.gitconfig..."
 cp -rf $(pwd)/gitconfig ${HOME}/.gitconfig
@@ -78,7 +81,7 @@ echo "Copy the inputrc file into ~/.inputrc..."
 ln -sf $(pwd)/inputrc ${HOME}/.inputrc
 
 echo "Link global .gitignore"
-ln -sf $(pwd)/releng-gitignore ${HOME}/.releng-gitignore
+ln -sf $(pwd)/global-gitignore ${HOME}/.global-gitignore
 
 echo "link global .git-prompt-colors.sh"
 ln -sf $(pwd)/git-prompt-colors.sh ${HOME}/.git-prompt-colors.sh
@@ -133,32 +136,9 @@ if [ -L ${go_src} ]; then
 fi
 
 workspace=${HOME}/workspace
-if [ ! -e ${workspace} ]; then
-  ln -sv ${go_src} ${workspace}
-fi
-
-if [ ! -L ${workspace} ]; then
-  echo "${workspace} exists, but is not a symbolic link"
-fi
+mkdir -p $workspace
 
 echo "Install hclfmt..."
 GOPATH="${HOME}/go" go get github.com/fatih/hclfmt
 
-echo "Cloning pcf-releng-ci if it doesn't exist"
-if [ ! -d "${GOPATH}/src/github.com/pivotal-cf/pcf-releng-ci" ]; then
-  git clone git@github.com:pivotal-cf/pcf-releng-ci.git "${GOPATH}/src/github.com/pivotal-cf/pcf-releng-ci"
-fi
-
-echo "Cloning p-runtime if it doesn't exist"
-if [ ! -d "${GOPATH}/src/github.com/pivotal-cf/p-runtime" ]; then
-  git clone git@github.com:pivotal-cf/p-runtime.git "${GOPATH}/src/github.com/pivotal-cf/p-runtime"
-fi
-
-echo "Cloning pcf-patches if it doesn't exist"
-if [ ! -d "${GOPATH}/src/github.com/pivotal-cf-experimental/pcf-patches" ]; then
-  git clone git@github.com:pivotal-cf-experimental/pcf-patches "${GOPATH}/src/github.com/pivotal-cf-experimental/pcf-patches"
-fi
-
 echo "Workstation setup complete"
-echo "::::::::::::::::::::::README:::::::::::::::::::::::::"
-cat $(pwd)/README.md

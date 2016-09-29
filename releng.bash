@@ -12,16 +12,6 @@ function main() {
 
     #git aliases
     alias gst="git status"
-    alias gd="git diff"
-    alias gap="git add -p"
-    alias gup="git pull -r"
-    alias gp="git push"
-    alias ga="git add"
-    alias gut="git pull -r && tree ."
-    alias guv="git pull -r && tree vsphere"
-    alias gua="git pull -r && tree aws"
-    alias guo="git pull -r && tree openstack"
-    alias guc="git pull -r && tree vcloud"
   }
 
   function setup_environment() {
@@ -95,9 +85,7 @@ function main() {
     git config --system --add hooks.global /usr/local/share/githooks
 
     REPOS=(
-    "${GOPATH}/src/github.com/pivotal-cf/pcf-releng-ci"
-    "${GOPATH}/src/github.com/pivotal-cf/p-runtime"
-    "${GOPATH}/src/github.com/pivotal-cf-experimental/pcf-patches"
+    "~/workspace/container-networking-ci"
     )
 
     for repo in ${REPOS[@]}; do
@@ -122,68 +110,16 @@ function main() {
     done
   }
 
-  function setup_git_secrets_hooks() {
-    if [ ! -d "/usr/local/share/githooks-templatedir" ]; then
-      pushd "${GOPATH}/src/github.com/pivotal-cf-experimental/releng-workspace" > /dev/null
-        ./git-hooks-template
-      popd > /dev/null
-    fi
-    git secrets --register-aws --global
-    git secrets --add 'MII'
-
-    secrets_hooks=(
-      pre_commit
-      commit_msg
-      prepare_commit_msg
-    )
-
-    for secrets_hook in ${secrets_hooks[@]}; do
-      local hook_dir_name
-      hook_dir_name=$(echo "${secrets_hook}" | sed 's/_/-/g')
-
-      local hook_path
-      hook_path="/usr/local/share/githooks/${hook_dir_name}/00-git-secrets"
-      mkdir -p $(dirname ${hook_path})
-
-      cat <<EOF > ${hook_path}
-#!/usr/bin/env bash
-git secrets --${secrets_hook}_hook -- "$@"
-EOF
-      chmod 755 ${hook_path}
-    done
-  }
-
-  local dependencies
-  dependencies=(
-    aliases
-    environment
-    colors
-    rbenv
-    aws
-    fasd
-    completions
-    direnv
-    gitprompt
-    git_hooks
-    git_secrets_hooks
-  )
-
-  for dependency in ${dependencies[@]}; do
-    eval "setup_${dependency}"
-    unset -f "setup_${dependency}"
-  done
-}
-
 function reload() {
   source "${HOME}/.bash_profile"
 }
 
 function reinstall() {
   local workspace
-  workspace="${GOPATH}/src/github.com/pivotal-cf-experimental/releng-workspace"
+  workspace="~/workspace/c2c-workspace"
 
   if [[ ! -d "${workspace}" ]]; then
-    git clone git@github.com:pivotal-cf-experimental/releng-workspace "${workspace}"
+    git clone https://github.com/cloudfoundry-incubator/c2c-workspace "${workspace}"
   fi
 
   pushd "${workspace}" > /dev/null
@@ -192,42 +128,10 @@ function reinstall() {
       git pull -r
       bash -c "./install.sh"
     else
-      echo "Cannot reinstall. There are unstaged changes in the releng-workspace repo."
+      echo "Cannot reinstall. There are unstaged changes in the c2c-workspace repo."
       git diff
     fi
   popd > /dev/null
-}
-
-function concourse_credentials() {
-  if [[ "${1}" = "edit" ]]; then
-      lpass edit --sync=now --notes 13068316046804935
-      lpass edit --sync=now --notes 3061742207521107901
-  else
-    cat \
-      <(lpass show --sync=now --notes 13068316046804935) \
-      <(lpass show --sync=now --notes 3061742207521107901)
-  fi
-}
-
-function azure_credentials() {
-  local cmd
-  cmd="${1-show}"
-
-  lpass ${cmd} --sync=now --notes 7819668678774416323
-}
-
-function gcp_credentials() {
-  local cmd
-  cmd="${1-show}"
-
-  lpass ${cmd} --sync=now --notes 1211441631940037867
-}
-
-function aws_credentials() {
-  local cmd
-  cmd="${1-show}"
-
-  lpass ${cmd} --sync=now --notes 24431544792306889
 }
 
 main
