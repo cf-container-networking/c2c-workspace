@@ -12,6 +12,11 @@ function main() {
 
     #git aliases
     alias gst="git status"
+    alias gd="git diff"
+    alias gap="git add -p"
+    alias gup="git pull -r"
+    alias gp="git push"
+    alias ga="git add"
   }
 
   function setup_environment() {
@@ -81,34 +86,24 @@ function main() {
     [[ -s "${colorscheme}" ]] && source "${colorscheme}"
   }
 
-  function setup_git_hooks() {
-    git config --system --add hooks.global /usr/local/share/githooks
+  local dependencies
+    dependencies=(
+        aliases
+        environment
+        colors
+        rbenv
+        aws
+        fasd
+        completions
+        direnv
+        gitprompt
+      )
 
-    REPOS=(
-    "~/workspace/container-networking-ci"
-    )
-
-    for repo in ${REPOS[@]}; do
-      if [ -d "${repo}/.git" ]; then
-        pushd ${repo} > /dev/null
-
-        for hook in $(ls .git/hooks/* | grep -v .sample); do
-          if $(grep -q git-hooks ${hook}); then
-            continue # already using git-hooks
-          fi
-
-          hook_dir="${repo}/githooks/$(basename ${hook})"
-          mkdir -p ${hook_dir}
-
-          cp "${hook}" "${hook_dir}/recovered-hook"
-        done
-
-        git hooks install > /dev/null
-
-        popd > /dev/null
-      fi
-    done
-  }
+  for dependency in ${dependencies[@]}; do
+    eval "setup_${dependency}"
+    unset -f "setup_${dependency}"
+  done
+}
 
 function reload() {
   source "${HOME}/.bash_profile"

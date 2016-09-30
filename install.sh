@@ -26,18 +26,6 @@ if [ -z "$(which brew)" ]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-if [ -z "$(which git-hooks)" ]; then
-  echo "Install git-hooks because it sucks and is not on brew..."
-  curl -fLo /tmp/git-hooks https://github.com/git-hooks/git-hooks/releases/download/v1.1.3/git-hooks_darwin_386.tar.gz --create-dirs
-
-  pushd  /tmp > /dev/null
-    tar -xzvf git-hooks
-    mv ./build/git-hooks_darwin_386 /usr/local/bin/git-hooks
-  popd > /dev/null
-
-  rm -f /tmp/git-hooks
-fi
-
 echo "Run the Brewfile..."
 brew update
 brew tap Homebrew/bundle
