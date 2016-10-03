@@ -55,6 +55,7 @@ function main() {
     fi
 
     source "$fasd_cache"
+    eval "$(fasd --init auto)"
   }
 
   function setup_completions() {
