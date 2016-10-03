@@ -129,4 +129,12 @@ mkdir -p $workspace
 echo "Install hclfmt..."
 GOPATH="${HOME}/go" go get github.com/fatih/hclfmt
 
+
+echo "Install spiff"
+if [ -z "$(which spiff)" ]; then
+  wget https://github.com/cloudfoundry-incubator/spiff/releases/download/v1.0.7/spiff_darwin_amd64.zip
+  unzip spiff_darwin_amd64.zip -d /usr/local/bin
+  rm spiff_darwin_amd64.zip
+fi
+
 echo "Workstation setup complete"
