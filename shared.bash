@@ -130,5 +130,28 @@ function reinstall() {
   popd > /dev/null
 }
 
+function cf_bosh_lite {
+    if (( $# == 0 ))
+			then echo usage: cf_bosh_lite password;
+    else
+    	cf api api.bosh-lite.com --skip-ssl-validation && cf auth admin $1 && cf t -o o -s s
+    fi
+}
+
+function cf_create_org {
+		cf create-org o && cf t -o o && cf create-space s && cf t -o o -s s
+}
+
+function bosh_ssh_c2c {
+  if (( $# != 1 ))
+    then echo "Usage: bosh_ssh_c2c <env>"
+  else
+    bosh target bosh.$1.c2c.cf-app.com
+    bosh download manifest $1-diego /tmp/$1-diego.yml
+    bosh -d /tmp/$1-diego.yml ssh --gateway_host bosh.$1.c2c.cf-app.com --gateway_user vcap --gateway_identity_file ~/workspace/container-networking-deployments/environments/$1/keypair/id_rsa_bosh
+  fi
+}
+
+
 main
 unset -f main
