@@ -31,8 +31,6 @@
   compactionHeuristic = true
 [status]
   submoduleSummary = true
-[init]
-	templatedir = /usr/local/share/githooks-templatedir
 [secrets]
 	patterns = AKIA[A-Z0-9]{16}
 	patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
