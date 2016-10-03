@@ -80,9 +80,6 @@ set list
 au FileType go nmap gd <Plug>(go-def)
 let g:go_fmt_command = "goimports"
 
-" Run neomake, it's like syntastic
-autocmd! BufWritePost * Neomake
-
 " Turn on go-implements
 au FileType go nmap <Leader>s <Plug>(go-implements)
 
