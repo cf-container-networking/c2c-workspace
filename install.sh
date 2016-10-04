@@ -131,6 +131,11 @@ mkdir -p $workspace
 echo "Install hclfmt..."
 GOPATH="${HOME}/go" go get github.com/fatih/hclfmt
 
+echo "Install ginkgo..."
+GOPATH="${HOME}/go" go get github.com/onsi/ginkgo/ginkgo
+
+echo "Install gomega..."
+GOPATH="${HOME}/go" go get github.com/onsi/gomega
 
 echo "Install spiff"
 if [ -z "$(which spiff)" ]; then
