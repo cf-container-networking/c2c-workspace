@@ -13,3 +13,16 @@ run the provided `install.sh` and enjoy.
 - ruby version will be `2.3.0`
 - neovim is the only vim
 - the less in the vim config, the better
+
+# some repositories to clone
+- cf-container-networking/toque-scaling
+- cf-container-networking/toque-test-helpers
+
+- cloudfoundry/bosh-lite
+- cloudfoundry/container-networking-deployments
+- cloudfoundry/cf-release
+- cloudfoundry/diego-release
+- cloudfoundry/garden-runc-release
+
+- cloudfoundry-incubator/container-networking-ci
+- cloudfoundry-incubator/netman-release
