@@ -126,3 +126,5 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " Clear search results
 nnoremap <silent> <space> :nohlsearch<CR>
 
+" fzf
+nnoremap <leader>f :FZF<CR>
