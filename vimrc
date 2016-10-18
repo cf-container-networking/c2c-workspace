@@ -49,6 +49,9 @@ Plug 'fatih/vim-hclfmt'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+" fzf
+Plug 'junegunn/fzf'
+
 call plug#end()
 
 " Syntax highlighting FTW
