@@ -140,6 +140,9 @@ GOPATH="${HOME}/go" go get github.com/onsi/gomega
 echo "Install counterfeiter..."
 GOPATH="${HOME}/go" go get github.com/maxbrunsfeld/counterfeiter
 
+echo "Install bbl..."
+GOPATH="${HOME}/go" go get github.com/cloudfoundry/bosh-bootloader/bbl
+
 echo "Install spiff"
 if [ -z "$(which spiff)" ]; then
   wget https://github.com/cloudfoundry-incubator/spiff/releases/download/v1.0.7/spiff_darwin_amd64.zip
