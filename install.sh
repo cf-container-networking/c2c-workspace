@@ -82,6 +82,7 @@ ln -sf $(pwd)/tmux.conf ${HOME}/.tmux.conf
 echo "Install ruby 2.3.0..."
 rbenv install -s 2.3.0
 rbenv global 2.3.0
+rm -f ~/.ruby-version
 eval "$(rbenv init -)"
 
 echo "Symlink the gemrc file to .gemrc..."
@@ -93,6 +94,9 @@ gem install bundler
 echo "Install the bosh cli gem..."
 gem install bosh_cli
 rbenv rehash
+
+echo "Install the go bosh cli gem..."
+go get github.com/cloudfoundry/bosh-cli
 
 echo "Cloning colorschemes..."
 if [ ! -d ${HOME}/.config/colorschemes ]; then
