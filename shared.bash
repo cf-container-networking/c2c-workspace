@@ -83,9 +83,11 @@ function main() {
 
   function setup_colors() {
     local colorscheme
-    colorscheme="${HOME}/.config/colorschemes/base16-flat.dark.sh"
+    colorscheme="${HOME}/.config/colorschemes/scripts/base16-monokai.sh"
     [[ -s "${colorscheme}" ]] && source "${colorscheme}"
   }
+
+
 
   local dependencies
     dependencies=(

@@ -132,6 +132,12 @@ fi
 workspace=${HOME}/workspace
 mkdir -p $workspace
 
+echo "Install bosh-target..."
+GOPATH="${HOME}/go" go get github.com/kkallday/bosh-target
+
+echo "Install cf-target..."
+GOPATH="${HOME}/go" go get github.com/dbellotti/cf-target
+
 echo "Install hclfmt..."
 GOPATH="${HOME}/go" go get github.com/fatih/hclfmt
 
@@ -154,4 +160,4 @@ if [ -z "$(which spiff)" ]; then
   rm spiff_darwin_amd64.zip
 fi
 
-echo "Workstation setup complete"
+echo "Workstation setup complete, to apply new bash profile, open new window or type: reload"
