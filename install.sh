@@ -150,6 +150,9 @@ GOPATH="${HOME}/go" go get github.com/onsi/gomega
 echo "Install counterfeiter..."
 GOPATH="${HOME}/go" go get github.com/maxbrunsfeld/counterfeiter
 
+echo "Install deployment extractor..."
+GOPATH="${HOME}/go" go get github.com/kkallday/deployment-extractor
+
 echo "Install bbl..."
 GOPATH="${HOME}/go" go get github.com/cloudfoundry/bosh-bootloader/bbl
 
@@ -160,4 +163,4 @@ if [ -z "$(which spiff)" ]; then
   rm spiff_darwin_amd64.zip
 fi
 
-echo "Workstation setup complete, to apply new bash profile, open new window or type: reload"
+echo "Workstation setup complete, open a new window to apply all settings"

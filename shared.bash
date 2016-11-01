@@ -154,6 +154,31 @@ function bosh_ssh_c2c {
   fi
 }
 
+gobosh_target ()
+{
+  env=$1
+
+  pushd ~/workspace/container-networking-deployments/environments/$env 1>/dev/null
+    export BOSH_USER=$(bbl director-username)
+    export BOSH_PASSWORD=$(bbl director-password)
+    export BOSH_ENVIRONMENT=$(bbl director-address)
+    # TODO: remove me after bbl'ing up with bbl 1.2+
+    export BOSH_GW_HOST=$(bbl director-address | cut -d '/' -f 3 | cut -d ':' -f1)
+    bbl ssh-key > /tmp/$env-ssh-key
+    chmod 600 /tmp/$env-ssh-key
+  popd 1>/dev/null
+
+  export BOSH_DEPLOYMENT=cf;
+}
+
+gobosh_ssh ()
+{
+  bosh-cli ssh --gw-user=vcap --gw-host=$BOSH_GW_HOST --gw-private-key=/tmp/$env-ssh-key
+}
+
+extract_manifest(){
+  bosh task $1 --debug | deployment-extractor
+}
 
 main
 unset -f main
