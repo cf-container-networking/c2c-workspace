@@ -33,6 +33,12 @@ ln -sf $(pwd)/Brewfile ${HOME}/.Brewfile
 brew bundle --global
 brew bundle cleanup
 
+echo "Updating pip"
+pip3 install --upgrade pip
+
+echo "Install python-client for neovim"
+pip3 install neovim
+
 echo "Install the plug vim plugin manager..."
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
