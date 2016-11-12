@@ -117,7 +117,7 @@ cp $(pwd)/ssh_config ${HOME}/.ssh/config
 chmod 0644 ${HOME}/.ssh/config
 
 echo "Setting up spectacle..."
-cp -f "$(pwd)/com.divisiblebyzero.Spectacle.plist" /Users/pivotal/Library/Preferences/
+cp -f "$(pwd)/com.divisiblebyzero.Spectacle.plist" "${HOME}/Library/Preferences/"
 
 echo "Creating go/src and workspace..."
 go_src=${HOME}/go/src
