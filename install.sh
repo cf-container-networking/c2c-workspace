@@ -176,4 +176,11 @@ if [ -z "$(bosh-init)" ]; then
   chmod +x /usr/local/bin/bosh-init
 fi
 
+echo "Install fly"
+if [ -z "$(fly)" ]; then
+  wget https://github.com/concourse/concourse/releases/download/v2.4.0/fly_darwin_amd64
+  mv fly_darwin_amd64 /usr/local/bin/fly
+  chmod +x /usr/local/bin/fly
+fi
+
 echo "Workstation setup complete, open a new window to apply all settings"
