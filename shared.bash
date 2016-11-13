@@ -157,8 +157,9 @@ function bosh_ssh_c2c {
 gobosh_target ()
 {
   env=$1
+  export BOSH_DIR=~/workspace/container-networking-deployments/environments/$env
 
-  pushd ~/workspace/container-networking-deployments/environments/$env 1>/dev/null
+  pushd $BOSH_DIR 1>/dev/null
     export BOSH_USER=$(bbl director-username)
     export BOSH_PASSWORD=$(bbl director-password)
     export BOSH_ENVIRONMENT=$(bbl director-address)
@@ -184,7 +185,20 @@ gobosh_ssh ()
   fi
 }
 
-extract_manifest(){
+gobosh_build_manifest ()
+{
+  bosh-cli -d cf build-manifest -l=$BOSH_DIR/deployment-env-vars.yml --var-errs ~/workspace/cf-deployment/cf-deployment.yml
+}
+
+gobosh_patch_manifest ()
+{
+  pushd ~/workspace/cf-deployment 1>/dev/null
+    git apply ../container-networking-ci/netman-cf-deployment.patch
+  popd 1>/dev/null
+}
+
+extract_manifest ()
+{
   bosh task $1 --debug | deployment-extractor
 }
 
