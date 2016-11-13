@@ -169,4 +169,11 @@ if [ -z "$(which spiff)" ]; then
   rm spiff_darwin_amd64.zip
 fi
 
+echo "Install bosh-init"
+if [ -z "$(bosh-init)" ]; then
+  wget https://s3.amazonaws.com/bosh-init-artifacts/bosh-init-0.0.99-darwin-amd64
+  mv bosh-init-0.0.99-darwin-amd64 /usr/local/bin/bosh-init
+  chmod +x /usr/local/bin/bosh-init
+fi
+
 echo "Workstation setup complete, open a new window to apply all settings"
