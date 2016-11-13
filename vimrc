@@ -125,6 +125,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+set runtimepath+=~/.vim
 
 " Clear search results
 nnoremap <silent> <space> :nohlsearch<CR>

@@ -53,10 +53,10 @@ echo "Update vim plugins..."
 nvim -c "PlugUpdate" -c "qall" --headless
 
 echo "Copy snippets..."
-mkdir -p ${HOME}/.vim/Ultisnips
+mkdir -p ${HOME}/.vim/UltiSnips
 
-echo "Symlink the go.snippets to .vim/Ultisnips..."
-ln -sf $(pwd)/go.snippets ${HOME}/.vim/Ultisnips
+echo "Symlink the go.snippets to .vim/UltiSnips..."
+ln -sf $(pwd)/go.snippets ${HOME}/.vim/UltiSnips
 
 echo "Install the vim go binaries..."
 nvim -c "GoInstallBinaries" -c "qall!" --headless /tmp/foo.go
