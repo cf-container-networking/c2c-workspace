@@ -177,7 +177,7 @@ if [ -z "$(bosh-init)" ]; then
 fi
 
 echo "Install fly"
-if [ -z "$(fly)" ]; then
+if [ -z "$(fly -v)" ]; then
   wget https://github.com/concourse/concourse/releases/download/v2.4.0/fly_darwin_amd64
   mv fly_darwin_amd64 /usr/local/bin/fly
   chmod +x /usr/local/bin/fly
