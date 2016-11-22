@@ -181,7 +181,7 @@ gobosh_ssh ()
   if (( $# != 1 ))
     then echo "Usage: gobosh_ssh <vm-name>"
   else
-    bosh-cli ssh $1 --gw-user=vcap --gw-host=$BOSH_GW_HOST --gw-private-key=$BOSH_KEY
+    bosh-cli ssh $1 --gw-private-key=$BOSH_KEY
   fi
 }
 
