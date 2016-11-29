@@ -7,7 +7,8 @@ override_git_prompt_colors() {
   DateTime="\$(date +'%Y-%m-%d %H:%M')"
   BoshTarget="\$(bosh-target -alias)"
   CfTarget="\$(cf-target)"
-  GIT_PROMPT_START_USER="\n${Red}${BoshTarget} | ${CfTarget} (\h) ${ResetColor}\n${Yellow}${PathShort}${ResetColor}"
+  GoBoshTarget="\$(env | grep BOSH_DIR | cut -d '/' -f 7)"
+  GIT_PROMPT_START_USER="\n${Red}r:${BoshTarget} | g:${GoBoshTarget} | ${CfTarget} (\h) ${ResetColor}\n${Yellow}${PathShort}${ResetColor}"
   GIT_PROMPT_END_USER=" ${Cyan}${GIT_PAIR}${ResetColor} $ "
   GIT_PROMPT_END_ROOT="\n# "
 
