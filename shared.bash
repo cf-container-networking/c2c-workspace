@@ -165,24 +165,15 @@ gobosh_target ()
     export BOSH_ENVIRONMENT=$(bbl director-address)
     # TODO: remove me after bbl'ing up with bbl 1.2+
     export BOSH_GW_HOST=$(bbl director-address | cut -d '/' -f 3 | cut -d ':' -f1)
-    export BOSH_KEY=/tmp/$env-ssh-key
-    bbl ssh-key > $BOSH_KEY
-    chmod 600 $BOSH_KEY
+    export BOSH_GW_PRIVATE_KEY=/tmp/$env-ssh-key
+    bbl ssh-key > $BOSH_GW_PRIVATE_KEY
+    chmod 600 $BOSH_GW_PRIVATE_KEY
     export BOSH_CA_CERT=/tmp/$env-ca-cert
     bbl director-ca-cert > $BOSH_CA_CERT
     chmod 600 $BOSH_CA_CERT
   popd 1>/dev/null
 
   export BOSH_DEPLOYMENT=cf;
-}
-
-gobosh_ssh ()
-{
-  if (( $# != 1 ))
-    then echo "Usage: gobosh_ssh <vm-name>"
-  else
-    bosh-cli ssh $1 --gw-private-key=$BOSH_KEY
-  fi
 }
 
 gobosh_build_manifest ()
