@@ -102,7 +102,7 @@ gem install bosh_cli
 rbenv rehash
 
 echo "Install the go bosh cli gem..."
-go get github.com/cloudfoundry/bosh-cli
+go get -u github.com/cloudfoundry/bosh-cli
 
 echo "Cloning colorschemes..."
 if [ ! -d ${HOME}/.config/colorschemes ]; then
@@ -139,28 +139,28 @@ workspace=${HOME}/workspace
 mkdir -p $workspace
 
 echo "Install bosh-target..."
-GOPATH="${HOME}/go" go get github.com/kkallday/bosh-target
+GOPATH="${HOME}/go" go get -u github.com/kkallday/bosh-target
 
 echo "Install cf-target..."
-GOPATH="${HOME}/go" go get github.com/dbellotti/cf-target
+GOPATH="${HOME}/go" go get -u github.com/dbellotti/cf-target
 
 echo "Install hclfmt..."
-GOPATH="${HOME}/go" go get github.com/fatih/hclfmt
+GOPATH="${HOME}/go" go get -u github.com/fatih/hclfmt
 
 echo "Install ginkgo..."
-GOPATH="${HOME}/go" go get github.com/onsi/ginkgo/ginkgo
+GOPATH="${HOME}/go" go get -u github.com/onsi/ginkgo/ginkgo
 
 echo "Install gomega..."
-GOPATH="${HOME}/go" go get github.com/onsi/gomega
+GOPATH="${HOME}/go" go get -u github.com/onsi/gomega
 
 echo "Install counterfeiter..."
-GOPATH="${HOME}/go" go get github.com/maxbrunsfeld/counterfeiter
+GOPATH="${HOME}/go" go get -u github.com/maxbrunsfeld/counterfeiter
 
 echo "Install deployment extractor..."
-GOPATH="${HOME}/go" go get github.com/kkallday/deployment-extractor
+GOPATH="${HOME}/go" go get -u github.com/kkallday/deployment-extractor
 
 echo "Install bbl..."
-GOPATH="${HOME}/go" go get github.com/cloudfoundry/bosh-bootloader/bbl
+GOPATH="${HOME}/go" go get -u github.com/cloudfoundry/bosh-bootloader/bbl
 
 echo "Install spiff"
 if [ -z "$(which spiff)" ]; then
