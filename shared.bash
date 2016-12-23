@@ -174,6 +174,9 @@ gobosh_target ()
   popd 1>/dev/null
 
   export BOSH_DEPLOYMENT=cf;
+  if [ "$env" = "ci" ]; then
+    export BOSH_DEPLOYMENT=concourse
+  fi
 }
 
 gobosh_build_manifest ()
