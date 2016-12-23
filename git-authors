@@ -3,12 +3,10 @@ authors:
   gl: Genevieve LEsperance; glesperance
   gr: Gabe Rosenhouse; grosenhouse
   jd: Jay Dunkelberger; ldunkelberger
-  ms: Mark St.Godard; markstgodard
-  kk: Konstantinos Karampogias;
+  #ms: Mark St.Godard; markstgodard
 
 email:
   domain: pivotal.io
 
 email_addresses:
-  ms: markstgodard@gmail.com
-  kk: konstantinos.karampogias@swisscom.com
+  #ms: markstgodard@gmail.com
