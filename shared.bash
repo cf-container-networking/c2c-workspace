@@ -156,6 +156,17 @@ function bosh_ssh_c2c {
 
 gobosh_target ()
 {
+  if (( $# != 1 )); then
+    unset BOSH_DIR
+    unset BOSH_USER
+    unset BOSH_PASSWORD
+    unset BOSH_ENVIRONMENT
+    unset BOSH_GW_HOST
+    unset BOSH_GW_PRIVATE_KEY
+    unset BOSH_CA_CERT
+    unset BOSH_DEVELOPMENT
+    return
+  fi
   env=$1
   export BOSH_DIR=~/workspace/container-networking-deployments/environments/$env
 
