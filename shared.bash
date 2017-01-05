@@ -207,5 +207,13 @@ extract_manifest ()
   bosh task $1 --debug | deployment-extractor
 }
 
+unbork_consul ()
+{
+  bosh-cli vms | grep consul | cut -d ' ' -f1 > /tmp/consul-vms
+  cat /tmp/consul-vms | xargs -n1 bosh-cli ssh -c "sudo /var/vcap/bosh/bin/monit stop consul_agent"
+  cat /tmp/consul-vms | xargs -n1 bosh-cli ssh -c "sudo rm -rf /var/vcap/store/consul_agent/*"
+  cat /tmp/consul-vms | xargs -n1 bosh-cli ssh -c "sudo /var/vcap/bosh/bin/monit start consul_agent"
+}
+
 main
 unset -f main
