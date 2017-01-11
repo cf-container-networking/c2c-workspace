@@ -165,14 +165,16 @@ gobosh_target ()
     unset BOSH_GW_PRIVATE_KEY
     unset BOSH_CA_CERT
     unset BOSH_DEVELOPMENT
+    unset BOSH_CLIENT
+    unset BOSH_CLIENT_SECRET
     return
   fi
   env=$1
   export BOSH_DIR=~/workspace/container-networking-deployments/environments/$env
 
   pushd $BOSH_DIR 1>/dev/null
-    export BOSH_USER=$(bbl director-username)
-    export BOSH_PASSWORD=$(bbl director-password)
+    export BOSH_CLIENT=$(bbl director-username)
+    export BOSH_CLIENT_SECRET=$(bbl director-password)
     export BOSH_ENVIRONMENT=$(bbl director-address)
     # TODO: remove me after bbl'ing up with bbl 1.2+
     export BOSH_GW_HOST=$(bbl director-address | cut -d '/' -f 3 | cut -d ':' -f1)
