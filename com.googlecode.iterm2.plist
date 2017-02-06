@@ -10,6 +10,8 @@
 	<integer>1</integer>
 	<key>Default Bookmark Guid</key>
 	<string>BACC9997-F9D7-4E36-BD3F-0CD5D4FF514A</string>
+	<key>DisableWindowSizeSnap</key>
+	<true/>
 	<key>LoadPrefsFromCustomFolder</key>
 	<true/>
 	<key>NSNavLastRootDirectory</key>
@@ -1180,7 +1182,7 @@
 			<key>Normal Font</key>
 			<string>Monaco 14</string>
 			<key>Option Key Sends</key>
-			<integer>0</integer>
+			<integer>2</integer>
 			<key>Prompt Before Closing 2</key>
 			<false/>
 			<key>Right Option Key Sends</key>

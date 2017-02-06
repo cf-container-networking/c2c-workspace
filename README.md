@@ -8,6 +8,9 @@ this is an attempt at simple.
 # installation
 run the provided `install.sh` and enjoy.
 
+To load iTerm preferences, point to this directory under `iTerm2` >
+`Preferences` > `Load preferences from a custom folder or URL`.
+
 # assumptions
 - install everything with brew
 - ruby version will be `2.3.0`
