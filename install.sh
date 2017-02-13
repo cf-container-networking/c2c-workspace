@@ -97,11 +97,14 @@ ln -sf $(pwd)/gemrc ${HOME}/.gemrc
 echo "Install the bundler gem..."
 gem install bundler
 
+echo "Install the uaac gem..."
+gem install cf-uaac
+
 echo "Install the bosh cli gem..."
 gem install bosh_cli
 rbenv rehash
 
-echo "Install the go bosh cli gem..."
+echo "Install the go bosh cli..."
 go get -u github.com/cloudfoundry/bosh-cli
 
 echo "Cloning colorschemes..."
