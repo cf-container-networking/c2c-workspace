@@ -17,6 +17,8 @@ function main() {
     alias gup="git pull -r"
     alias gp="git push"
     alias ga="git add"
+
+    alias gbt="gobosh_target"
   }
 
   function setup_environment() {
