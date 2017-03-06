@@ -19,6 +19,7 @@ function main() {
     alias ga="git add"
 
     alias gbt="gobosh_target"
+    alias cft="cf_target"
   }
 
   function setup_environment() {
@@ -154,6 +155,24 @@ function bosh_ssh_c2c {
     bosh download manifest $1-diego /tmp/$1-diego.yml
     bosh -d /tmp/$1-diego.yml ssh --gateway_host bosh.$1.c2c.cf-app.com --gateway_user vcap --gateway_identity_file ~/workspace/container-networking-deployments/environments/$1/keypair/id_rsa_bosh
   fi
+}
+
+cf_target ()
+{
+  if (( $# != 1 )); then
+    echo "missing environment-name"
+    echo ""
+    echo "example usage:"
+    echo "cft environment-name"
+    return
+  fi
+  env=$1
+  envdir=~/workspace/container-networking-deployments/environments/$env
+  pushd $envdir 1>/dev/null
+    cf api api."${env}".c2c.cf-app.com --skip-ssl-validation
+    pw=$(grep scim vars-store.yml | cut -d ' ' -f2)
+    cf auth admin "${pw}"
+  popd 1>/dev/null
 }
 
 gobosh_target ()
