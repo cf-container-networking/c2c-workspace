@@ -17,6 +17,7 @@
   unstage = "reset HEAD"
   rum = "rebase master@{u}"
   drb = rebase -i --exec 'git duet-commit --amend --reset-author'
+  su = submodule update --init --recursive
 [core]
   editor = nvim
   excludesfile = ~/.shared-gitignore
