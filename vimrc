@@ -95,6 +95,9 @@ au FileType go nmap <Leader>s <Plug>(go-implements)
 " Turn on go-rename
 au FileType go nmap <Leader>e <Plug>(go-rename)
 
+" Open test file in new window
+au FileType go nmap <Leader>a :vsp<CR>:GoAlternate<CR>
+
 " Make YAML Great Again
 autocmd FileType yaml setlocal indentexpr=
 
