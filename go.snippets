@@ -9,7 +9,7 @@ ${0}
 endsnippet
 
 snippet fake "counterfeiter fake" b
-//go:generate counterfeiter -o fakes/${0:${VISUAL}}.go --fake-name ${0:${VISUAL}} . ${0:${VISUAL}}
+//go:generate counterfeiter -o fakes/${3}.go --fake-name ${2} . ${1:${VISUAL}}
 endsnippet
 
 snippet println "fmt.Println(...)"
