@@ -1,5 +1,17 @@
 # More snippets for Go
 
+# override default error snippet
+snippet err "Error panic" !b
+if err != nil {
+	panic(err)
+}
+${0}
+endsnippet
+
+snippet fake "counterfeiter fake" b
+//go:generate counterfeiter -o fakes/${0:${VISUAL}}.go --fake-name ${0:${VISUAL}} . ${0:${VISUAL}}
+endsnippet
+
 snippet println "fmt.Println(...)"
 fmt.Println(${0:${VISUAL}})
 endsnippet
