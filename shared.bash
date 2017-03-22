@@ -19,7 +19,9 @@ function main() {
     alias ga="git add"
 
     alias gbt="gobosh_target"
+    alias gbtl="gobosh_target_lite"
     alias cft="cf_target"
+    alias bosh="bosh-cli"
   }
 
   function setup_environment() {
@@ -205,6 +207,35 @@ gobosh_target ()
     export BOSH_CA_CERT=/tmp/$env-ca-cert
     bbl director-ca-cert > $BOSH_CA_CERT
     chmod 600 $BOSH_CA_CERT
+  popd 1>/dev/null
+
+  export BOSH_DEPLOYMENT=cf;
+  if [ "$env" = "ci" ]; then
+    export BOSH_DEPLOYMENT=concourse
+  fi
+}
+
+gobosh_target_lite ()
+{
+  if (( $# != 1 )); then
+    unset BOSH_DIR
+    unset BOSH_USER
+    unset BOSH_PASSWORD
+    unset BOSH_ENVIRONMENT
+    unset BOSH_GW_HOST
+    unset BOSH_GW_PRIVATE_KEY
+    unset BOSH_CA_CERT
+    unset BOSH_DEPLOYMENT
+    unset BOSH_CLIENT
+    unset BOSH_CLIENT_SECRET
+  fi
+  export BOSH_DIR=~/workspace/container-networking-deployments/environments/local
+
+  pushd $BOSH_DIR >/dev/null
+    export BOSH_CLIENT="admin"
+    export BOSH_CLIENT_SECRET="$(bosh-cli int ./creds.yml --path /admin_password)"
+    export BOSH_ENVIRONMENT="vbox"
+    export BOSH_CA_CERT="$(bosh-cli int ./creds.yml --path /director_ssl/ca)"
   popd 1>/dev/null
 
   export BOSH_DEPLOYMENT=cf;

@@ -100,12 +100,12 @@ gem install bundler
 echo "Install the uaac gem..."
 gem install cf-uaac
 
-echo "Install the bosh cli gem..."
-gem install bosh_cli
-rbenv rehash
-
-echo "Install the go bosh cli..."
-go get -u github.com/cloudfoundry/bosh-cli
+echo "Install go bosh cli..."
+wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.1-darwin-amd64
+chmod +x bosh-cli-*
+mv bosh-cli-* /usr/local/bin/bosh
+cp /usr/local/bin/bosh /Users/pivotal/go/bin/bosh
+cp /usr/local/bin/bosh /Users/pivotal/go/bin/bosh-cli
 
 echo "Cloning colorschemes..."
 if [ ! -d ${HOME}/.config/colorschemes ]; then
