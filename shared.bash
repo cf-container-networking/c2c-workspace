@@ -233,9 +233,10 @@ gobosh_target_lite ()
 
   pushd $BOSH_DIR >/dev/null
     export BOSH_CLIENT="admin"
-    export BOSH_CLIENT_SECRET="$(bosh-cli int ./creds.yml --path /admin_password)"
+    export BOSH_CLIENT_SECRET="$(bosh int ./creds.yml --path /admin_password)"
     export BOSH_ENVIRONMENT="vbox"
-    export BOSH_CA_CERT="$(bosh-cli int ./creds.yml --path /director_ssl/ca)"
+    export BOSH_CA_CERT=/tmp/bosh-lite-ca-cert
+    bosh int ./creds.yml --path /director_ssl/ca > $BOSH_CA_CERT
   popd 1>/dev/null
 
   export BOSH_DEPLOYMENT=cf;
@@ -246,7 +247,7 @@ gobosh_target_lite ()
 
 gobosh_build_manifest ()
 {
-  bosh-cli -d cf build-manifest -l=$BOSH_DIR/deployment-env-vars.yml --var-errs ~/workspace/cf-deployment/cf-deployment.yml
+  bosh -d cf build-manifest -l=$BOSH_DIR/deployment-env-vars.yml --var-errs ~/workspace/cf-deployment/cf-deployment.yml
 }
 
 gobosh_patch_manifest ()
@@ -261,12 +262,27 @@ extract_manifest ()
   bosh task $1 --debug | deployment-extractor
 }
 
+create_upload ()
+{
+  bosh create-release --force --timestamp-version && bosh upload-release
+}
+
+deploy_bosh_lite ()
+{
+  bosh deploy -n ~/workspace/cf-deployment/cf-deployment.yml \
+  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
+  -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
+  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/postgres.yml \
+  --vars-store ~/workspace/cf-networking-deployments/environments/local/deployment-vars.yml \
+  -v system_domain=bosh-lite.com
+}
+
 unbork_consul ()
 {
-  bosh-cli vms | grep consul | cut -d ' ' -f1 > /tmp/consul-vms
-  cat /tmp/consul-vms | xargs -n1 bosh-cli ssh -c "sudo /var/vcap/bosh/bin/monit stop consul_agent"
-  cat /tmp/consul-vms | xargs -n1 bosh-cli ssh -c "sudo rm -rf /var/vcap/store/consul_agent/*"
-  cat /tmp/consul-vms | xargs -n1 bosh-cli ssh -c "sudo /var/vcap/bosh/bin/monit start consul_agent"
+  bosh vms | grep consul | cut -d ' ' -f1 > /tmp/consul-vms
+  cat /tmp/consul-vms | xargs -n1 bosh ssh -c "sudo /var/vcap/bosh/bin/monit stop consul_agent"
+  cat /tmp/consul-vms | xargs -n1 bosh ssh -c "sudo rm -rf /var/vcap/store/consul_agent/*"
+  cat /tmp/consul-vms | xargs -n1 bosh ssh -c "sudo /var/vcap/bosh/bin/monit start consul_agent"
 }
 
 main
