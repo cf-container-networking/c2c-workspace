@@ -5,10 +5,9 @@ override_git_prompt_colors() {
   GIT_PAIR=${GIT_DUET_INITIALS:-`git config user.initials | sed 's% %+%'`}
 
   DateTime="\$(date +'%Y-%m-%d %H:%M')"
-  BoshTarget="\$(bosh-target -alias)"
   CfTarget="\$(cf-target)"
   GoBoshTarget="\$(env | grep BOSH_DIR | cut -d '/' -f 7)"
-  GIT_PROMPT_START_USER="\n${Red}r:${BoshTarget} | g:${GoBoshTarget} | ${CfTarget} (\h) ${ResetColor}\n${Yellow}${PathShort}${ResetColor}"
+  GIT_PROMPT_START_USER="\n${Red}g:${GoBoshTarget} | ${CfTarget} (\h) ${ResetColor}\n${Yellow}${PathShort}${ResetColor}"
   GIT_PROMPT_END_USER=" ${Cyan}${GIT_PAIR}${ResetColor}\n$ "
   GIT_PROMPT_END_ROOT="\n# "
 

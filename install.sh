@@ -162,8 +162,8 @@ GOPATH="${HOME}/go" go get -u github.com/maxbrunsfeld/counterfeiter
 echo "Install deployment extractor..."
 GOPATH="${HOME}/go" go get -u github.com/kkallday/deployment-extractor
 
-echo "Install bbl..."
-GOPATH="${HOME}/go" go get -u github.com/cloudfoundry/bosh-bootloader/bbl
+# echo "Install bbl..."
+# GOPATH="${HOME}/go" go get -u github.com/cloudfoundry/bosh-bootloader/bbl
 
 echo "Install spiff"
 if [ -z "$(which spiff)" ]; then
