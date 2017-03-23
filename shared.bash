@@ -273,7 +273,8 @@ deploy_bosh_lite ()
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
   -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/postgres.yml \
-  --vars-store ~/workspace/cf-networking-deployments/environments/local/deployment-vars.yml \
+  -o ~/workspace/container-networking-deployments/environments/local/instance-count-overrides.yml \
+  --vars-store ~/workspace/container-networking-deployments/environments/local/deployment-vars.yml \
   -v system_domain=bosh-lite.com
 }
 
