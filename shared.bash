@@ -169,10 +169,18 @@ cf_target ()
     return
   fi
   env=$1
+  local system_domain
+  local vars_store
+  system_domain="${env}.c2c.cf-app.com"
+  vars_store="vars-store.yml"
+  if [ "${env}" == "local" ]; then
+    system_domain="bosh-lite.com"
+    vars_store="deployment-vars.yml"
+  fi
   envdir=~/workspace/container-networking-deployments/environments/$env
   pushd $envdir 1>/dev/null
-    cf api api."${env}".c2c.cf-app.com --skip-ssl-validation
-    pw=$(grep scim vars-store.yml | cut -d ' ' -f2)
+    cf api api."${system_domain}" --skip-ssl-validation
+    pw=$(grep scim "${vars_store}" | cut -d ' ' -f2)
     cf auth admin "${pw}"
   popd 1>/dev/null
 }
