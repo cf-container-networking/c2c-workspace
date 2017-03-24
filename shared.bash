@@ -173,7 +173,7 @@ cf_target ()
   local vars_store
   system_domain="${env}.c2c.cf-app.com"
   vars_store="vars-store.yml"
-  if [ "${env}" == "local" ]; then
+  if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
     system_domain="bosh-lite.com"
     vars_store="deployment-vars.yml"
   fi
@@ -187,20 +187,16 @@ cf_target ()
 
 gobosh_target ()
 {
+  gobosh_untarget
   if (( $# != 1 )); then
-    unset BOSH_DIR
-    unset BOSH_USER
-    unset BOSH_PASSWORD
-    unset BOSH_ENVIRONMENT
-    unset BOSH_GW_HOST
-    unset BOSH_GW_PRIVATE_KEY
-    unset BOSH_CA_CERT
-    unset BOSH_DEVELOPMENT
-    unset BOSH_CLIENT
-    unset BOSH_CLIENT_SECRET
     return
   fi
   env=$1
+  if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
+    gobosh_target_lite
+    return
+  fi
+
   export BOSH_DIR=~/workspace/container-networking-deployments/environments/$env
 
   pushd $BOSH_DIR 1>/dev/null
@@ -223,20 +219,23 @@ gobosh_target ()
   fi
 }
 
+gobosh_untarget ()
+{
+  unset BOSH_DIR
+  unset BOSH_USER
+  unset BOSH_PASSWORD
+  unset BOSH_ENVIRONMENT
+  unset BOSH_GW_HOST
+  unset BOSH_GW_PRIVATE_KEY
+  unset BOSH_CA_CERT
+  unset BOSH_DEPLOYMENT
+  unset BOSH_CLIENT
+  unset BOSH_CLIENT_SECRET
+}
+
 gobosh_target_lite ()
 {
-  if (( $# != 1 )); then
-    unset BOSH_DIR
-    unset BOSH_USER
-    unset BOSH_PASSWORD
-    unset BOSH_ENVIRONMENT
-    unset BOSH_GW_HOST
-    unset BOSH_GW_PRIVATE_KEY
-    unset BOSH_CA_CERT
-    unset BOSH_DEPLOYMENT
-    unset BOSH_CLIENT
-    unset BOSH_CLIENT_SECRET
-  fi
+  gobosh_untarget
   export BOSH_DIR=~/workspace/container-networking-deployments/environments/local
 
   pushd $BOSH_DIR >/dev/null
