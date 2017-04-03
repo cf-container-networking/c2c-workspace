@@ -276,7 +276,7 @@ create_upload ()
 
 deploy_bosh_lite ()
 {
-  bosh deploy -n ~/workspace/cf-deployment/cf-deployment.yml \
+  bosh deploy --no-redact -n ~/workspace/cf-deployment/cf-deployment.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/network-daemon.yml \
   -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
