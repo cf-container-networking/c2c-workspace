@@ -104,8 +104,8 @@ echo "Install go bosh cli..."
 wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.1-darwin-amd64
 chmod +x bosh-cli-*
 mv bosh-cli-* /usr/local/bin/bosh
-cp /usr/local/bin/bosh /Users/pivotal/go/bin/bosh
-cp /usr/local/bin/bosh /Users/pivotal/go/bin/bosh-cli
+cp /usr/local/bin/bosh ~/go/bin/bosh
+cp /usr/local/bin/bosh ~/go/bin/bosh-cli
 
 echo "Cloning colorschemes..."
 if [ ! -d ${HOME}/.config/colorschemes ]; then
