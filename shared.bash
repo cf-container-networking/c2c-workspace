@@ -21,6 +21,7 @@ function main() {
     alias gbt="gobosh_target"
     alias gbtl="gobosh_target_lite"
     alias cft="cf_target"
+    alias cftl="cf_target local"
     alias bosh="bosh-cli"
   }
 
