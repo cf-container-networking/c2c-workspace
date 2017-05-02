@@ -275,7 +275,7 @@ create_upload ()
   bosh create-release --force --timestamp-version && bosh upload-release
 }
 
-deploy_bosh_lite ()
+deploy_bosh_lite_w_flannel ()
 {
   bosh deploy --no-redact -n ~/workspace/cf-deployment/cf-deployment.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
@@ -286,7 +286,7 @@ deploy_bosh_lite ()
   -v system_domain=bosh-lite.com
 }
 
-deploy_bosh_lite_w_silk ()
+deploy_bosh_lite ()
 {
   bosh deploy --no-redact -n ~/workspace/cf-deployment/cf-deployment.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
@@ -299,7 +299,7 @@ deploy_bosh_lite_w_silk ()
   -v system_domain=bosh-lite.com
 }
 
-gobosh_deploy ()
+gobosh_deploy_w_flannel ()
 {
   bosh deploy -n ~/workspace/cf-deployment/cf-deployment.yml \
   -o ~/workspace/cf-deployment/operations/gcp.yml \
@@ -310,7 +310,7 @@ gobosh_deploy ()
   -v system_domain=$(echo "${BOSH_DIR}" | cut -f 7 -d '/').c2c.cf-app.com
 }
 
-gobosh_deploy_w_silk ()
+gobosh_deploy ()
 {
   bosh deploy -n ~/workspace/cf-deployment/cf-deployment.yml \
   -o ~/workspace/cf-deployment/operations/gcp.yml \
