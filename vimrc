@@ -75,6 +75,9 @@ set nowrap
 " Remap the leader key
 :let mapleader = ','
 
+" Run neomake, it's like syntastic
+autocmd! BufWritePost * Neomake
+
 " yank to clipboard alias
 vnoremap <leader>y "*y
 
