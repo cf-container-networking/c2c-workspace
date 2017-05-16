@@ -189,7 +189,7 @@ cf_target ()
 gobosh_target ()
 {
   gobosh_untarget
-  if (( $# != 1 )); then
+  if [ $# = 0 ]; then
     return
   fi
   env=$1
@@ -197,8 +197,12 @@ gobosh_target ()
     gobosh_target_lite
     return
   fi
-
-  export BOSH_DIR=~/workspace/container-networking-deployments/environments/$env
+  pcf=$2
+  if [ "$pcf" = "pcf" ]; then
+    export BOSH_DIR=~/workspace/container-networking-pcf-deployments/environments/$env
+  else
+    export BOSH_DIR=~/workspace/container-networking-deployments/environments/$env
+  fi
 
   pushd $BOSH_DIR 1>/dev/null
     export BOSH_CLIENT=$(bbl director-username)
