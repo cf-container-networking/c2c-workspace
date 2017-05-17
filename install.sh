@@ -101,7 +101,7 @@ echo "Install the uaac gem..."
 gem install cf-uaac
 
 echo "Install go bosh cli..."
-wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.1-darwin-amd64
+wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.16-darwin-amd64
 chmod +x bosh-cli-*
 mv bosh-cli-* /usr/local/bin/bosh
 cp /usr/local/bin/bosh ~/go/bin/bosh

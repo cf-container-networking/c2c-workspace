@@ -326,6 +326,54 @@ gobosh_deploy ()
   -v system_domain=$(echo "${BOSH_DIR}" | cut -f 7 -d '/').c2c.cf-app.com
 }
 
+create_bosh_lite ()
+{
+    bosh create-env ~/workspace/bosh-deployment/bosh.yml \
+    --state ~/workspace/container-networking-deployments/environments/local/state.json \
+    -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
+    -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
+    -o ~/workspace/bosh-deployment/bosh-lite.yml \
+    -o ~/workspace/bosh-deployment/bosh-lite-runc.yml \
+    -o ~/workspace/bosh-deployment/jumpbox-user.yml \
+    --vars-store ~/workspace/container-networking-deployments/environments/local/creds.yml \
+    -v director_name="Bosh Lite Director" \
+    -v internal_ip=192.168.50.6 \
+    -v internal_gw=192.168.50.1 \
+    -v internal_cidr=192.168.50.0/24 \
+    -v outbound_network_name="NatNetwork"
+
+    bosh -e 192.168.50.6 --ca-cert <(bosh int ~/workspace/container-networking-deployments/environments/local/creds.yml --path /director_ssl/ca) alias-env vbox
+    export BOSH_CLIENT="admin"
+    export BOSH_CLIENT_SECRET="$(bosh int ~/workspace/container-networking-deployments/environments/local/creds.yml --path /admin_password)"
+    export BOSH_ENVIRONMENT="vbox"
+    export BOSH_DEPLOYMENT="cf"
+    export BOSH_CA_CERT="/tmp/bosh-lite-ca-cert"
+    bosh int ~/workspace/container-networking-deployments/environments/local/creds.yml --path /director_ssl/ca > ${BOSH_CA_CERT}
+
+    STEMCELL_VERSION="$(bosh int ~/workspace/cf-deployment/cf-deployment.yml --path=/stemcells/0/version)"
+    echo "will upload stemcell ${STEMCELL_VERSION}"
+    bosh -e vbox upload-stemcell "https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=${STEMCELL_VERSION}"
+
+    bosh -e vbox -n update-cloud-config ~/workspace/cf-deployment/bosh-lite/cloud-config.yml
+}
+
+delete_bosh_lite ()
+{
+    bosh delete-env ~/workspace/bosh-deployment/bosh.yml \
+    --state ~/workspace/container-networking-deployments/environments/local/state.json \
+    -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
+    -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
+    -o ~/workspace/bosh-deployment/bosh-lite.yml \
+    -o ~/workspace/bosh-deployment/bosh-lite-runc.yml \
+    -o ~/workspace/bosh-deployment/jumpbox-user.yml \
+    --vars-store ~/workspace/container-networking-deployments/environments/local/creds.yml \
+    -v director_name="Bosh Lite Director" \
+    -v internal_ip=192.168.50.6 \
+    -v internal_gw=192.168.50.1 \
+    -v internal_cidr=192.168.50.0/24 \
+    -v outbound_network_name="NatNetwork"
+}
+
 unbork_consul ()
 {
   bosh vms | grep consul | cut -d ' ' -f1 > /tmp/consul-vms
