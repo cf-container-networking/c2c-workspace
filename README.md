@@ -21,9 +21,9 @@ To load iTerm preferences, point to this directory under `iTerm2` >
 - cf-container-networking/toque-scaling
 - cf-container-networking/toque-test-helpers
 - cloudfoundry/bosh-lite
-- cloudfoundry/container-networking-deployments
+- cloudfoundry/cf-networking-deployments
 - cloudfoundry/cf-release
 - cloudfoundry/diego-release
 - cloudfoundry/garden-runc-release
-- cloudfoundry-incubator/container-networking-ci
+- cloudfoundry-incubator/cf-networking-ci
 - cloudfoundry-incubator/netman-release

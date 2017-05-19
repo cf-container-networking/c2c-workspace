@@ -156,7 +156,7 @@ function bosh_ssh_c2c {
   else
     bosh target bosh.$1.c2c.cf-app.com
     bosh download manifest $1-diego /tmp/$1-diego.yml
-    bosh -d /tmp/$1-diego.yml ssh --gateway_host bosh.$1.c2c.cf-app.com --gateway_user vcap --gateway_identity_file ~/workspace/container-networking-deployments/environments/$1/keypair/id_rsa_bosh
+    bosh -d /tmp/$1-diego.yml ssh --gateway_host bosh.$1.c2c.cf-app.com --gateway_user vcap --gateway_identity_file ~/workspace/cf-networking-deployments/environments/$1/keypair/id_rsa_bosh
   fi
 }
 
@@ -178,7 +178,7 @@ cf_target ()
     system_domain="bosh-lite.com"
     vars_store="deployment-vars.yml"
   fi
-  envdir=~/workspace/container-networking-deployments/environments/$env
+  envdir=~/workspace/cf-networking-deployments/environments/$env
   pushd $envdir 1>/dev/null
     cf api api."${system_domain}" --skip-ssl-validation
     pw=$(grep scim "${vars_store}" | cut -d ' ' -f2)
@@ -199,9 +199,9 @@ gobosh_target ()
   fi
   pcf=$2
   if [ "$pcf" = "pcf" ]; then
-    export BOSH_DIR=~/workspace/container-networking-pcf-deployments/environments/$env
+    export BOSH_DIR=~/workspace/pcf-networking-deployments/environments/$env
   else
-    export BOSH_DIR=~/workspace/container-networking-deployments/environments/$env
+    export BOSH_DIR=~/workspace/cf-networking-deployments/environments/$env
   fi
 
   pushd $BOSH_DIR 1>/dev/null
@@ -241,7 +241,7 @@ gobosh_untarget ()
 gobosh_target_lite ()
 {
   gobosh_untarget
-  export BOSH_DIR=~/workspace/container-networking-deployments/environments/local
+  export BOSH_DIR=~/workspace/cf-networking-deployments/environments/local
 
   pushd $BOSH_DIR >/dev/null
     export BOSH_CLIENT="admin"
@@ -265,7 +265,7 @@ gobosh_build_manifest ()
 gobosh_patch_manifest ()
 {
   pushd ~/workspace/cf-deployment 1>/dev/null
-    git apply ../container-networking-ci/netman-cf-deployment.patch
+    git apply ../cf-networking-ci/netman-cf-deployment.patch
   popd 1>/dev/null
 }
 
@@ -285,8 +285,8 @@ deploy_bosh_lite_w_flannel ()
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
   -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/postgres.yml \
-  -o ~/workspace/container-networking-deployments/environments/local/instance-count-overrides.yml \
-  --vars-store ~/workspace/container-networking-deployments/environments/local/deployment-vars.yml \
+  -o ~/workspace/cf-networking-deployments/environments/local/instance-count-overrides.yml \
+  --vars-store ~/workspace/cf-networking-deployments/environments/local/deployment-vars.yml \
   -v system_domain=bosh-lite.com
 }
 
@@ -298,8 +298,8 @@ deploy_bosh_lite ()
   -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/postgres.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/silk-postgres.yml \
-  -o ~/workspace/container-networking-deployments/environments/local/instance-count-overrides.yml \
-  --vars-store ~/workspace/container-networking-deployments/environments/local/deployment-vars.yml \
+  -o ~/workspace/cf-networking-deployments/environments/local/instance-count-overrides.yml \
+  --vars-store ~/workspace/cf-networking-deployments/environments/local/deployment-vars.yml \
   -v system_domain=bosh-lite.com
 }
 
@@ -329,26 +329,26 @@ gobosh_deploy ()
 create_bosh_lite ()
 {
     bosh create-env ~/workspace/bosh-deployment/bosh.yml \
-    --state ~/workspace/container-networking-deployments/environments/local/state.json \
+    --state ~/workspace/cf-networking-deployments/environments/local/state.json \
     -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
     -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
     -o ~/workspace/bosh-deployment/bosh-lite.yml \
     -o ~/workspace/bosh-deployment/bosh-lite-runc.yml \
     -o ~/workspace/bosh-deployment/jumpbox-user.yml \
-    --vars-store ~/workspace/container-networking-deployments/environments/local/creds.yml \
+    --vars-store ~/workspace/cf-networking-deployments/environments/local/creds.yml \
     -v director_name="Bosh Lite Director" \
     -v internal_ip=192.168.50.6 \
     -v internal_gw=192.168.50.1 \
     -v internal_cidr=192.168.50.0/24 \
     -v outbound_network_name="NatNetwork"
 
-    bosh -e 192.168.50.6 --ca-cert <(bosh int ~/workspace/container-networking-deployments/environments/local/creds.yml --path /director_ssl/ca) alias-env vbox
+    bosh -e 192.168.50.6 --ca-cert <(bosh int ~/workspace/cf-networking-deployments/environments/local/creds.yml --path /director_ssl/ca) alias-env vbox
     export BOSH_CLIENT="admin"
-    export BOSH_CLIENT_SECRET="$(bosh int ~/workspace/container-networking-deployments/environments/local/creds.yml --path /admin_password)"
+    export BOSH_CLIENT_SECRET="$(bosh int ~/workspace/cf-networking-deployments/environments/local/creds.yml --path /admin_password)"
     export BOSH_ENVIRONMENT="vbox"
     export BOSH_DEPLOYMENT="cf"
     export BOSH_CA_CERT="/tmp/bosh-lite-ca-cert"
-    bosh int ~/workspace/container-networking-deployments/environments/local/creds.yml --path /director_ssl/ca > ${BOSH_CA_CERT}
+    bosh int ~/workspace/cf-networking-deployments/environments/local/creds.yml --path /director_ssl/ca > ${BOSH_CA_CERT}
 
     STEMCELL_VERSION="$(bosh int ~/workspace/cf-deployment/cf-deployment.yml --path=/stemcells/0/version)"
     echo "will upload stemcell ${STEMCELL_VERSION}"
@@ -360,13 +360,13 @@ create_bosh_lite ()
 delete_bosh_lite ()
 {
     bosh delete-env ~/workspace/bosh-deployment/bosh.yml \
-    --state ~/workspace/container-networking-deployments/environments/local/state.json \
+    --state ~/workspace/cf-networking-deployments/environments/local/state.json \
     -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
     -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
     -o ~/workspace/bosh-deployment/bosh-lite.yml \
     -o ~/workspace/bosh-deployment/bosh-lite-runc.yml \
     -o ~/workspace/bosh-deployment/jumpbox-user.yml \
-    --vars-store ~/workspace/container-networking-deployments/environments/local/creds.yml \
+    --vars-store ~/workspace/cf-networking-deployments/environments/local/creds.yml \
     -v director_name="Bosh Lite Director" \
     -v internal_ip=192.168.50.6 \
     -v internal_gw=192.168.50.1 \
