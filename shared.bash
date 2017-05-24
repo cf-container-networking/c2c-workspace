@@ -181,7 +181,7 @@ cf_target ()
   envdir=~/workspace/cf-networking-deployments/environments/$env
   pushd $envdir 1>/dev/null
     cf api api."${system_domain}" --skip-ssl-validation
-    pw=$(grep scim "${vars_store}" | cut -d ' ' -f2)
+    pw=$(grep cf_admin_password "${vars_store}" | cut -d ' ' -f2)
     cf auth admin "${pw}"
   popd 1>/dev/null
 }
