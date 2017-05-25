@@ -142,7 +142,7 @@ workspace=${HOME}/workspace
 mkdir -p $workspace
 
 echo "Install bosh-target..."
-GOPATH="${HOME}/go" go get -u github.com/kkallday/bosh-target
+GOPATH="${HOME}/go" go get -u github.com/cf-container-networking/bosh-target
 
 echo "Install cf-target..."
 GOPATH="${HOME}/go" go get -u github.com/dbellotti/cf-target
