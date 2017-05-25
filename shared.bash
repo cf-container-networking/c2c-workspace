@@ -279,39 +279,15 @@ create_upload ()
   bosh create-release --force --timestamp-version && bosh upload-release
 }
 
-deploy_bosh_lite_w_flannel ()
-{
-  bosh deploy --no-redact -n ~/workspace/cf-deployment/cf-deployment.yml \
-  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
-  -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
-  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/postgres.yml \
-  -o ~/workspace/cf-networking-deployments/environments/local/instance-count-overrides.yml \
-  --vars-store ~/workspace/cf-networking-deployments/environments/local/deployment-vars.yml \
-  -v system_domain=bosh-lite.com
-}
-
 deploy_bosh_lite ()
 {
   bosh deploy --no-redact -n ~/workspace/cf-deployment/cf-deployment.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
-  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/silk.yml \
   -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/postgres.yml \
-  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/silk-postgres.yml \
   -o ~/workspace/cf-networking-deployments/environments/local/instance-count-overrides.yml \
   --vars-store ~/workspace/cf-networking-deployments/environments/local/deployment-vars.yml \
   -v system_domain=bosh-lite.com
-}
-
-gobosh_deploy_w_flannel ()
-{
-  bosh deploy -n ~/workspace/cf-deployment/cf-deployment.yml \
-  -o ~/workspace/cf-deployment/operations/gcp.yml \
-  -o ~/workspace/cf-deployment/operations/workarounds/use-3-azs-for-router.yml \
-  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
-  -o $BOSH_DIR/opsfile.yml \
-  --vars-store $BOSH_DIR/vars-store.yml \
-  -v system_domain=$(echo "${BOSH_DIR}" | cut -f 7 -d '/').c2c.cf-app.com
 }
 
 gobosh_deploy ()
@@ -320,7 +296,6 @@ gobosh_deploy ()
   -o ~/workspace/cf-deployment/operations/gcp.yml \
   -o ~/workspace/cf-deployment/operations/workarounds/use-3-azs-for-router.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
-  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/silk.yml \
   -o $BOSH_DIR/opsfile.yml \
   --vars-store $BOSH_DIR/vars-store.yml \
   -v system_domain=$(echo "${BOSH_DIR}" | cut -f 7 -d '/').c2c.cf-app.com
