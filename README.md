@@ -16,6 +16,7 @@ To load iTerm preferences, point to this directory under `iTerm2` >
 - ruby version will be `2.3.0`
 - neovim is the only vim
 - the less in the vim config, the better
+- we remote pair with [ngrok+tmux](./REMOTE_PAIRING.md) or Screenhero
 
 # some repositories to clone
 - cf-container-networking/toque-scaling
