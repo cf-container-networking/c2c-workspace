@@ -284,7 +284,7 @@ deploy_bosh_lite ()
   bosh deploy --no-redact -n ~/workspace/cf-deployment/cf-deployment.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
   -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
-  -o ~/workspace/cf-deployment/operations/disable-etcd.yml \
+  -o ~/workspace/cf-deployment/operations/experimental/disable-etcd.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/postgres.yml \
   -o ~/workspace/cf-networking-deployments/environments/local/instance-count-overrides.yml \
   --vars-store ~/workspace/cf-networking-deployments/environments/local/deployment-vars.yml \
