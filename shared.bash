@@ -279,6 +279,12 @@ create_upload ()
   bosh create-release --force --timestamp-version && bosh upload-release
 }
 
+upload_bosh_stemcell () {
+  STEMCELL_VERSION="$(bosh int ~/workspace/cf-deployment/cf-deployment.yml --path=/stemcells/0/version)"
+  echo "will upload stemcell ${STEMCELL_VERSION}"
+  bosh -e vbox upload-stemcell "https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=${STEMCELL_VERSION}"
+}
+
 deploy_bosh_lite ()
 {
   bosh deploy --no-redact -n ~/workspace/cf-deployment/cf-deployment.yml \
@@ -287,6 +293,7 @@ deploy_bosh_lite ()
   -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
   -o ~/workspace/cf-deployment/operations/experimental/disable-etcd.yml \
   -o ~/workspace/cf-networking-deployments/environments/local/instance-count-overrides.yml \
+  -o ~/workspace/cf-networking-deployments/environments/local/opsfile.yml \
   --vars-store ~/workspace/cf-networking-deployments/environments/local/deployment-vars.yml \
   -v system_domain=bosh-lite.com
 }
