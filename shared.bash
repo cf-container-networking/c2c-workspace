@@ -260,9 +260,9 @@ gobosh_target_lite ()
 ssh_bosh_lite_director ()
 {
   local creds=~/workspace/cf-networking-deployments/environments/local/creds.yml
-  bosh int $creds --path /jumpbox_ssh/private_key > jumpbox.key
-  chmod 600 jumpbox.key
-  ssh jumpbox@192.168.50.6 -i jumpbox.key
+  bosh int $creds --path /jumpbox_ssh/private_key > /tmp/jumpbox.key
+  chmod 600 /tmp/jumpbox.key
+  ssh jumpbox@192.168.50.6 -i /tmp/jumpbox.key
 }
 
 gobosh_build_manifest ()
