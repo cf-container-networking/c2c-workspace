@@ -257,6 +257,14 @@ gobosh_target_lite ()
   fi
 }
 
+ssh_bosh_lite_director ()
+{
+  local creds=~/workspace/cf-networking-deployments/environments/local/creds.yml
+  bosh int $creds --path /jumpbox_ssh/private_key > jumpbox.key
+  chmod 600 jumpbox.key
+  ssh jumpbox@192.168.50.6 -i jumpbox.key
+}
+
 gobosh_build_manifest ()
 {
   bosh -d cf build-manifest -l=$BOSH_DIR/deployment-env-vars.yml --var-errs ~/workspace/cf-deployment/cf-deployment.yml
