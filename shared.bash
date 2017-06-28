@@ -301,7 +301,6 @@ deploy_bosh_lite ()
   -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
   -o ~/workspace/cf-deployment/operations/experimental/disable-etcd.yml \
   -o ~/workspace/cf-networking-deployments/environments/local/instance-count-overrides.yml \
-  -o ~/workspace/cf-networking-deployments/environments/local/opsfile.yml \
   --vars-store ~/workspace/cf-networking-deployments/environments/local/deployment-vars.yml \
   -v system_domain=bosh-lite.com
 }
