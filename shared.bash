@@ -312,6 +312,7 @@ gobosh_deploy ()
   -o ~/workspace/cf-deployment/operations/gcp.yml \
   -o ~/workspace/cf-deployment/operations/workarounds/use-3-azs-for-router.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
+  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/use-latest.yml \
   -o $BOSH_DIR/opsfile.yml \
   --vars-store $BOSH_DIR/vars-store.yml \
   -v system_domain=$(echo "${BOSH_DIR}" | cut -f 7 -d '/').c2c.cf-app.com
