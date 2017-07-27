@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+alias bosh="bosh-cli"
+
 function main() {
   function setup_aliases() {
     alias vim=nvim

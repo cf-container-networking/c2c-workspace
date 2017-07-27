@@ -85,6 +85,9 @@ ln -sf $(pwd)/git-prompt-colors.sh ${HOME}/.git-prompt-colors.sh
 echo "link global .tmux.conf"
 ln -sf $(pwd)/tmux.conf ${HOME}/.tmux.conf
 
+echo "link bosh"
+ln -sf ${HOME}/go/bin/bosh-cli /usr/local/bin/bosh
+
 echo "Install ruby 2.3.0..."
 rbenv install -s 2.3.0
 rbenv global 2.3.0
