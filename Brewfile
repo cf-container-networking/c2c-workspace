@@ -27,7 +27,7 @@ brew 'jq'
 brew 'lastpass-cli', args: ['with-pinentry']
 brew 'libtool'
 brew 'mysql'
-brew 'neovim/neovim/neovim'
+brew 'neovim'
 brew 'oniguruma'
 brew 'openssl'
 brew 'packer'
