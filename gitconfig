@@ -26,6 +26,7 @@
   pushInsteadOf = git://github.com/
 [push]
   default = simple
+  recurseSubmodules = check
 [submodule]
   fetchJobs = 6
 [diff]
