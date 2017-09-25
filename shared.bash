@@ -298,6 +298,7 @@ upload_bosh_stemcell () {
 deploy_bosh_lite ()
 {
   bosh deploy --no-redact -n ~/workspace/cf-deployment/cf-deployment.yml \
+  -o ~/workspace/cf-deployment/operations/use-compiled-releases.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/use-latest.yml \
   -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
@@ -313,6 +314,7 @@ gobosh_deploy ()
   bosh deploy -n ~/workspace/cf-deployment/cf-deployment.yml \
   -o ~/workspace/cf-deployment/operations/gcp.yml \
   -o ~/workspace/cf-deployment/operations/workarounds/use-3-azs-for-router.yml \
+  -o ~/workspace/cf-deployment/operations/use-compiled-releases.yml \
   -o ~/workspace/cf-deployment/operations/bypass-cc-bridge.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/use-latest.yml \
