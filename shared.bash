@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-alias bosh="bosh-cli"
-
 function main() {
   function setup_aliases() {
     alias vim=nvim
@@ -24,7 +22,6 @@ function main() {
     alias gbtl="gobosh_target_lite"
     alias cft="cf_target"
     alias cftl="cf_target local"
-    alias bosh="bosh-cli"
   }
 
   function setup_environment() {
@@ -305,6 +302,7 @@ deploy_bosh_lite ()
   -o ~/workspace/cf-deployment/operations/bypass-cc-bridge.yml \
   -o ~/workspace/cf-deployment/operations/experimental/disable-etcd.yml \
   -o ~/workspace/cf-networking-deployments/environments/local/instance-count-overrides.yml \
+  -o $BOSH_DIR/opsfile.yml \
   --vars-store ~/workspace/cf-networking-deployments/environments/local/deployment-vars.yml \
   -v system_domain=bosh-lite.com
 }
