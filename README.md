@@ -21,10 +21,17 @@ To load iTerm preferences, point to this directory under `iTerm2` >
 # some repositories to clone
 - cf-container-networking/toque-scaling
 - cf-container-networking/toque-test-helpers
-- cloudfoundry/bosh-lite
+- cloudfoundry/bosh-deployment
+- cloudfoundry/cf-deployment
+- cloudfoundry/cf-deployment-concourse-tasks
 - cloudfoundry/cf-networking-deployments
 - cloudfoundry/cf-release
 - cloudfoundry/diego-release
+- cloudfoundry/capi-release
+- cloudfoundry/cf-acceptance-tests
 - cloudfoundry/garden-runc-release
-- cloudfoundry-incubator/cf-networking-ci
-- cloudfoundry-incubator/netman-release
+- cloudfoundry/cf-networking-ci
+- cloudfoundry/cf-networking-release
+- cloudfoundry-incubator/routing-release
+- cloudfoundry/silk (clone to code.cloudfoundry.org)
+- cloudfoundry/cf-networking-helpers
