@@ -330,6 +330,7 @@ create_bosh_lite ()
     -o ~/workspace/bosh-deployment/bosh-lite.yml \
     -o ~/workspace/bosh-deployment/bosh-lite-runc.yml \
     -o ~/workspace/bosh-deployment/jumpbox-user.yml \
+    -o ~/workspace/bosh-deployment/local-dns.yml \
     --vars-store ~/workspace/cf-networking-deployments/environments/local/creds.yml \
     -v director_name="Bosh Lite Director" \
     -v internal_ip=192.168.50.6 \
