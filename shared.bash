@@ -230,6 +230,9 @@ gobosh_target ()
   if [ "$env" = "pickelhelm" ]; then
     export BOSH_DEPLOYMENT=pickelhelm.c2c.cf-app.com
   fi
+  if [ "$env" = "beret" ]; then
+    export BOSH_DEPLOYMENT=beret.c2c.cf-app.com
+  fi
 }
 
 gobosh_untarget ()
