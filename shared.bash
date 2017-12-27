@@ -19,7 +19,6 @@ function main() {
     alias ga="git add"
 
     alias gbt="gobosh_target"
-    alias gbt2="gobosh_target2"
     alias gbtl="gobosh_target_lite"
     alias cft="cf_target"
     alias cftl="cf_target local"
@@ -186,10 +185,7 @@ cf_target ()
   popd 1>/dev/null
 }
 
-# for bbl 5.10
-# when all environments are moved over to the new bbl
-# this will be the only gobosh_target
-gobosh_target2 ()
+gobosh_target ()
 {
   gobosh_untarget
   if [ $# = 0 ]; then
@@ -214,56 +210,6 @@ gobosh_target2 ()
   export BOSH_DEPLOYMENT="cf"
   if [ "$env" = "ci" ]; then
     export BOSH_DEPLOYMENT=concourse
-  fi
-}
-
-gobosh_target ()
-{
-  gobosh_untarget
-  if [ $# = 0 ]; then
-    return
-  fi
-  env=$1
-  if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
-    gobosh_target_lite
-    return
-  fi
-  pcf=$2
-  if [ "$pcf" = "pcf" ]; then
-    export BOSH_DIR=~/workspace/pcf-networking-deployments/environments/$env
-  else
-    export BOSH_DIR=~/workspace/cf-networking-deployments/environments/$env
-  fi
-
-  pushd $BOSH_DIR 1>/dev/null
-    export BOSH_CLIENT=$(bbl director-username)
-    export BOSH_CLIENT_SECRET=$(bbl director-password)
-    export BOSH_ENVIRONMENT=$(bbl director-address)
-    # TODO: remove me after bbl'ing up with bbl 1.2+
-    export BOSH_GW_HOST=$(bbl director-address | cut -d '/' -f 3 | cut -d ':' -f1)
-    export BOSH_GW_PRIVATE_KEY=/tmp/$env-ssh-key
-    bbl ssh-key > $BOSH_GW_PRIVATE_KEY
-    chmod 600 $BOSH_GW_PRIVATE_KEY
-    export BOSH_CA_CERT=/tmp/$env-ca-cert
-    bbl director-ca-cert > $BOSH_CA_CERT
-    chmod 600 $BOSH_CA_CERT
-  popd 1>/dev/null
-
-  export BOSH_DEPLOYMENT=cf;
-  if [ "$env" = "ci" ]; then
-    export BOSH_DEPLOYMENT=concourse
-  fi
-  if [ "$env" = "toque" ]; then
-    export BOSH_DEPLOYMENT=toque.c2c.cf-app.com
-  fi
-  if [ "$env" = "mitre" ]; then
-    export BOSH_DEPLOYMENT=mitre.c2c.cf-app.com
-  fi
-  if [ "$env" = "pickelhelm" ]; then
-    export BOSH_DEPLOYMENT=pickelhelm.c2c.cf-app.com
-  fi
-  if [ "$env" = "beret" ]; then
-    export BOSH_DEPLOYMENT=beret.c2c.cf-app.com
   fi
 }
 
