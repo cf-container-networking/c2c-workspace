@@ -19,6 +19,7 @@ function main() {
     alias ga="git add"
 
     alias gbt="gobosh_target"
+    alias gbt2="gobosh_target2"
     alias gbtl="gobosh_target_lite"
     alias cft="cf_target"
     alias cftl="cf_target local"
@@ -183,6 +184,37 @@ cf_target ()
     pw=$(grep cf_admin_password "${vars_store}" | cut -d ' ' -f2)
     cf auth admin "${pw}"
   popd 1>/dev/null
+}
+
+# for bbl 5.10
+# when all environments are moved over to the new bbl
+# this will be the only gobosh_target
+gobosh_target2 ()
+{
+  gobosh_untarget
+  if [ $# = 0 ]; then
+    return
+  fi
+  env=$1
+  if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
+    gobosh_target_lite
+    return
+  fi
+  pcf=$2
+  if [ "$pcf" = "pcf" ]; then
+    export BOSH_DIR=~/workspace/pcf-networking-deployments/environments/$env
+  else
+    export BOSH_DIR=~/workspace/cf-networking-deployments/environments/$env
+  fi
+
+  pushd $BOSH_DIR 1>/dev/null
+    eval "$(bbl print-env)"
+  popd 1>/dev/null
+
+  export BOSH_DEPLOYMENT="cf"
+  if [ "$env" = "ci" ]; then
+    export BOSH_DEPLOYMENT=concourse
+  fi
 }
 
 gobosh_target ()
