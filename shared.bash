@@ -246,6 +246,13 @@ gobosh_target_lite ()
   fi
 }
 
+readd_local_route ()
+{
+  ips="10.244.0.0/16"
+  gw="192.168.50.6"
+  sudo delete add -net "$ips" "$gw"
+  sudo route add -net "$ips" "$gw"
+}
 ssh_bosh_lite_director ()
 {
   local creds=~/workspace/cf-networking-deployments/environments/local/creds.yml
