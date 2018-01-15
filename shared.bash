@@ -250,7 +250,7 @@ readd_local_route ()
 {
   ips="10.244.0.0/16"
   gw="192.168.50.6"
-  sudo delete add -net "$ips" "$gw"
+  sudo route delete -net "$ips" "$gw"
   sudo route add -net "$ips" "$gw"
 }
 ssh_bosh_lite_director ()
