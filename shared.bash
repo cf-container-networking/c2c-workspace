@@ -299,7 +299,7 @@ deploy_bosh_lite ()
   -o ~/workspace/cf-networking-deployments/environments/local/instance-count-overrides.yml \
   -o ~/workspace/cf-deployment/operations/experimental/use-bosh-dns-for-containers.yml \
   -o ~/workspace/cf-deployment/operations/experimental/use-bosh-dns.yml \
-  -o ~/workspace/cf-app-sd-release/opsfiles/enable-service-discovery.yml \
+  -o ~/workspace/cf-deployment/operations/experimental/enable-service-discovery.yml \
   -o ~/workspace/cf-app-sd-release/opsfiles/use-latest.yml \
   -o $BOSH_DIR/opsfile.yml \
   --vars-store ~/workspace/cf-networking-deployments/environments/local/deployment-vars.yml \
