@@ -1,5 +1,4 @@
 authors:
-  jv: Joachim Valdez; joachimvaldez
   ac: Angela Chin; achin
   dl: Dennis Leon; dleon
   ts: Tyler Schultz; tschultz
@@ -7,9 +6,7 @@ authors:
   sp: Sabha Parameswaran; sparameswaran
   gr: Gabriel Rosenhouse; grosenhouse
   ao: Aidan Obley; aobley
+  ca: Christian Ang; cang
 
 email:
   domain: pivotal.io
-
-email_addresses:
-  jv: valdezj@us.ibm.com
