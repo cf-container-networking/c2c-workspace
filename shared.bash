@@ -93,6 +93,15 @@ function main() {
   }
 
 
+  function setup_ssh_agent() {
+    if [[ ! -e ~/.ssh_agent ]]; then
+      if [[ -n ${SSH_AUTH_SOCK} ]]; then
+        ln -s $SSH_AUTH_SOCK ~/.ssh_agent
+      fi
+    fi
+
+    export SSH_AUTH_SOCK=~/.ssh_agent
+  }
 
   local dependencies
     dependencies=(
@@ -105,6 +114,7 @@ function main() {
         completions
         direnv
         gitprompt
+        ssh_agent
       )
 
   for dependency in ${dependencies[@]}; do
