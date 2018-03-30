@@ -249,6 +249,7 @@ gobosh_target_lite ()
     export BOSH_CA_CERT=/tmp/bosh-lite-ca-cert
     bosh int ./creds.yml --path /director_ssl/ca > $BOSH_CA_CERT
   popd 1>/dev/null
+  unset BOSH_ALL_PROXY
 
   export BOSH_DEPLOYMENT=cf;
   if [ "$env" = "ci" ]; then
