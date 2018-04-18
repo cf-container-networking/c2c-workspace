@@ -52,6 +52,7 @@ brew 'universal-ctags/universal-ctags/universal-ctags', args: ['HEAD']
 brew 'watch'
 brew 'wget'
 brew 'xz'
+brew 'bash-completion'
 cask 'flycut'
 cask 'google-cloud-sdk'
 cask 'iterm2'
