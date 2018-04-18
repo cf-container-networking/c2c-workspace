@@ -97,7 +97,7 @@ function main() {
   function setup_ssh_agent() {
     if [[ ! -e ~/.ssh_agent ]]; then
       if [[ -n ${SSH_AUTH_SOCK} ]]; then
-        ln -s $SSH_AUTH_SOCK ~/.ssh_agent
+        ln -sf $SSH_AUTH_SOCK ~/.ssh_agent
       fi
     fi
 
