@@ -97,9 +97,6 @@ ln -sf $(pwd)/gemrc ${HOME}/.gemrc
 echo "Install the bundler gem..."
 gem install bundler
 
-echo "Install the uaac gem..."
-gem install cf-uaac
-
 echo "Cloning colorschemes..."
 if [ ! -d ${HOME}/.config/colorschemes ]; then
   git clone https://github.com/chriskempson/base16-shell.git "${HOME}/.config/colorschemes"
@@ -154,9 +151,6 @@ GOPATH="${HOME}/go" go get -u github.com/maxbrunsfeld/counterfeiter
 
 echo "Install deployment extractor..."
 GOPATH="${HOME}/go" go get -u github.com/kkallday/deployment-extractor
-
-# echo "Install bbl..."
-# GOPATH="${HOME}/go" go get -u github.com/cloudfoundry/bosh-bootloader/bbl
 
 echo "Install fly"
 if [ -z "$(fly -v)" ]; then
