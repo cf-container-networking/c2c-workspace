@@ -23,9 +23,6 @@ Plug 'benekastah/neomake'
 " Pairs of handy bracket mappings
 Plug 'tpope/vim-unimpaired'
 
-" Searching with AG
-Plug 'rking/ag.vim'
-
 " Make commenting easier
 Plug 'tpope/vim-commentary'
 
@@ -51,6 +48,7 @@ Plug 'honza/vim-snippets'
 
 " fzf
 Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
