@@ -158,23 +158,9 @@ GOPATH="${HOME}/go" go get -u github.com/kkallday/deployment-extractor
 # echo "Install bbl..."
 # GOPATH="${HOME}/go" go get -u github.com/cloudfoundry/bosh-bootloader/bbl
 
-echo "Install spiff"
-if [ -z "$(which spiff)" ]; then
-  wget https://github.com/cloudfoundry-incubator/spiff/releases/download/v1.0.7/spiff_darwin_amd64.zip
-  unzip spiff_darwin_amd64.zip -d /usr/local/bin
-  rm spiff_darwin_amd64.zip
-fi
-
-echo "Install bosh-init"
-if [ -z "$(bosh-init)" ]; then
-  wget https://s3.amazonaws.com/bosh-init-artifacts/bosh-init-0.0.99-darwin-amd64
-  mv bosh-init-0.0.99-darwin-amd64 /usr/local/bin/bosh-init
-  chmod +x /usr/local/bin/bosh-init
-fi
-
 echo "Install fly"
 if [ -z "$(fly -v)" ]; then
-  wget https://github.com/concourse/concourse/releases/download/v2.4.0/fly_darwin_amd64
+  wget https://github.com/concourse/concourse/releases/download/v3.8.0/fly_darwin_amd64
   mv fly_darwin_amd64 /usr/local/bin/fly
   chmod +x /usr/local/bin/fly
 fi

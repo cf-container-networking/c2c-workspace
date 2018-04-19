@@ -64,12 +64,7 @@ function main() {
   }
 
   function setup_completions() {
-    . $(brew --prefix)/etc/bash_completion
-    # if [ -d $(brew --prefix)/etc/bash_completion.d ]; then
-    #   for F in $(brew --prefix)/etc/bash_completion.d/*; do
-    #     . ${F}
-    #   done
-    # fi
+    [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
   }
 
   function setup_direnv() {
