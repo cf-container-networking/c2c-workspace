@@ -347,6 +347,7 @@ gobosh_deploy ()
 
 create_bosh_lite ()
 {
+    gobosh_target_lite;
     bosh create-env ~/workspace/bosh-deployment/bosh.yml \
     --state ~/workspace/cf-networking-deployments/environments/local/state.json \
     -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
