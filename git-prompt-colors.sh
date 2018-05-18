@@ -6,7 +6,7 @@ override_git_prompt_colors() {
 
   DateTime="\$(date +'%Y-%m-%d %H:%M')"
   CfTarget="\$(cf-target)"
-  GoBoshTarget="\$(env | grep BOSH_DIR | cut -d '/' -f 7)"
+  GoBoshTarget="\$(gobosh_target_prompt)"
   Ochre="\033[38;5;95m"
   GIT_PROMPT_START_USER="\n${Ochre}bosh: ${GoBoshTarget} | cf: ${CfTarget} (\h) ${ResetColor}\n${Yellow}${PathShort}${ResetColor}"
   GIT_PROMPT_END_USER=" ${Cyan}${GIT_PAIR}${ResetColor}\n$ "
@@ -21,6 +21,10 @@ override_git_prompt_colors() {
   GIT_PROMPT_CONFLICTS="${Red}C:"
   GIT_PROMPT_CHANGED="${Blue}U:"
   GIT_PROMPT_UNTRACKED="${Red}?:"
+}
+
+gobosh_target_prompt() {
+  basename "${BOSH_DIR%bbl-state}"
 }
 
 # load the theme
