@@ -178,10 +178,6 @@ cf_target ()
   workspace=$2
   local system_domain
   local vars_store
-  if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
-    system_domain="bosh-lite.com"
-    vars_store="deployment-vars.yml"
-  fi
   if [ "$workspace" = "routing" ]; then
     envdir=~/workspace/deployments-routing/$env
     system_domain="${env}.routing.cf-app.com"
@@ -190,6 +186,10 @@ cf_target ()
     envdir=~/workspace/cf-networking-deployments/environments/$env
     system_domain="${env}.c2c.cf-app.com"
     vars_store="vars-store.yml"
+  fi
+  if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
+    system_domain="bosh-lite.com"
+    vars_store="deployment-vars.yml"
   fi
   pushd $envdir 1>/dev/null
     cf api api."${system_domain}" --skip-ssl-validation
