@@ -167,7 +167,7 @@ function bosh_ssh_c2c {
 
 cf_target ()
 {
-  if (( $# != 1 )); then
+  if [ $# = 0 ]; then
     echo "missing environment-name"
     echo ""
     echo "example usage:"
@@ -175,15 +175,22 @@ cf_target ()
     return
   fi
   env=$1
+  workspace=$2
   local system_domain
   local vars_store
-  system_domain="${env}.c2c.cf-app.com"
-  vars_store="vars-store.yml"
   if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
     system_domain="bosh-lite.com"
     vars_store="deployment-vars.yml"
   fi
-  envdir=~/workspace/cf-networking-deployments/environments/$env
+  if [ "$workspace" = "routing" ]; then
+    envdir=~/workspace/deployments-routing/$env
+    system_domain="${env}.routing.cf-app.com"
+    vars_store="deployment-vars.yml"
+  else
+    envdir=~/workspace/cf-networking-deployments/environments/$env
+    system_domain="${env}.c2c.cf-app.com"
+    vars_store="vars-store.yml"
+  fi
   pushd $envdir 1>/dev/null
     cf api api."${system_domain}" --skip-ssl-validation
     pw=$(grep cf_admin_password "${vars_store}" | cut -d ' ' -f2)
@@ -202,15 +209,17 @@ gobosh_target ()
     gobosh_target_lite
     return
   fi
-  pcf=$2
-  if [ "$pcf" = "pcf" ]; then
+  workspace=$2
+  if [ "$workspace" = "pcf" ]; then
     export BOSH_DIR=~/workspace/pcf-networking-deployments/environments/$env
+  elif [ "$workspace" = "routing" ]; then
+    export BOSH_DIR=~/workspace/deployments-routing/$env/bbl-state
   else
     export BOSH_DIR=~/workspace/cf-networking-deployments/environments/$env
   fi
 
   pushd $BOSH_DIR 1>/dev/null
-    eval "$(bbl print-env)"
+      eval "$(bbl print-env)"
   popd 1>/dev/null
 
   export BOSH_DEPLOYMENT="cf"
