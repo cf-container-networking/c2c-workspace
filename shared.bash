@@ -412,5 +412,11 @@ unbork_consul ()
   cat /tmp/consul-vms | xargs -n1 bosh ssh -c "sudo /var/vcap/bosh/bin/monit start consul_agent"
 }
 
+
+function windows_port_forward() {
+  echo "Port forwarding from $1"
+  ssh -f -L 3389:$1:3389 -N -i ${BOSH_GW_PRIVATE_KEY} ${BOSH_GW_USER}@${BOSH_GW_HOST}
+}
+
 main
 unset -f main
