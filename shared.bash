@@ -209,6 +209,15 @@ gobosh_target ()
     gobosh_target_lite
     return
   fi
+
+  if [[ "${env}" == "ci" ]]; then
+    echo "Retrieving bbl-env from lastpass: Shared-CF-Networking (OSS)/ci-bbl-env/ci"
+    echo "If the creds don't work. Run refresh_lastpass_ci_envs"
+    eval "$(lpass show 'Shared-CF-Networking (OSS)/ci-bbl-env/ci' --note)"
+    export BOSH_DEPLOYMENT="concourse"
+    return
+  fi
+
   workspace=$2
   if [ "$workspace" = "pcf" ]; then
     export BOSH_DIR=~/workspace/pcf-networking-deployments/environments/$env
@@ -223,9 +232,17 @@ gobosh_target ()
   popd 1>/dev/null
 
   export BOSH_DEPLOYMENT="cf"
-  if [ "$env" = "ci" ]; then
-    export BOSH_DEPLOYMENT=concourse
-  fi
+}
+
+refresh_lastpass_ci_envs ()
+{
+  local temp_dir="$(mktemp -d)"
+  pushd "${temp_dir}" > /dev/null
+    gsutil cp gs://c2c-bbl-states/ci ci.tgz
+    tar xf ci.tgz
+    echo "$(bbl print-env)" | lpass edit --non-interactive --notes 'Shared-CF-Networking (OSS)/ci-bbl-env/ci'
+    echo "Updated ci bbl env in lastpass."
+  popd > /dev/null
 }
 
 gobosh_untarget ()
