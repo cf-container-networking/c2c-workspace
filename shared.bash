@@ -193,7 +193,7 @@ cf_target ()
   fi
   pushd $envdir 1>/dev/null
     cf api api."${system_domain}" --skip-ssl-validation
-    pw=$(grep cf_admin_password "${vars_store}" | cut -d ' ' -f2)
+    pw=$(credhub get -n "/bosh-${env}/cf/cf_admin_password" | bosh int --path /value -)
     cf auth admin "${pw}"
   popd 1>/dev/null
 }
