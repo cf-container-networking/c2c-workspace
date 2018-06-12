@@ -322,39 +322,19 @@ upload_bosh_stemcell () {
   bosh -e vbox upload-stemcell "https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=${STEMCELL_VERSION}"
 }
 
-# this uses the latest silk release and sd
-# it does not create any releases
-deploy_bosh_lite_with_silk_release ()
-{
-  bosh deploy --no-redact -n ~/workspace/cf-deployment/cf-deployment.yml \
-  -o ~/workspace/cf-deployment/operations/use-compiled-releases.yml \
-  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
-  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/use-latest.yml \
-  -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
-  -o ~/workspace/cf-networking-deployments/environments/local/instance-count-overrides.yml \
-  -o ~/workspace/cf-deployment/operations/experimental/use-bosh-dns.yml \
-  -o ~/workspace/cf-deployment/operations/experimental/use-bosh-dns-for-containers-with-silk-release.yml \
-  -o ~/workspace/cf-deployment/operations/experimental/use-silk-release.yml \
-  -o ~/workspace/silk-release/opsfiles/use-latest.yml \
-  -o ~/workspace/cf-deployment/operations/experimental/enable-service-discovery.yml \
-  -o ~/workspace/cf-app-sd-release/opsfiles/use-latest.yml \
-  -o $BOSH_DIR/opsfile.yml \
-  --vars-store ~/workspace/cf-networking-deployments/environments/local/deployment-vars.yml \
-  -v system_domain=bosh-lite.com
-}
-
 deploy_bosh_lite ()
 {
   bosh deploy --no-redact -n ~/workspace/cf-deployment/cf-deployment.yml \
   -o ~/workspace/cf-deployment/operations/use-compiled-releases.yml \
-  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/cf-networking.yml \
-  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/use-latest.yml \
+  -o ~/workspace/cf-deployment/operations/experimental/use-cf-networking-2.yml \
   -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
   -o ~/workspace/cf-networking-deployments/environments/local/instance-count-overrides.yml \
-  -o ~/workspace/cf-deployment/operations/experimental/use-bosh-dns-for-containers.yml \
+  -o ~/workspace/cf-deployment/operations/experimental/use-bosh-dns-for-containers-with-networking-2.yml \
   -o ~/workspace/cf-deployment/operations/experimental/use-bosh-dns.yml \
   -o ~/workspace/cf-deployment/operations/experimental/enable-service-discovery.yml \
-  -o ~/workspace/cf-app-sd-release/opsfiles/use-latest.yml \
+  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/use-service-discovery-from-cf-networking.yml \
+  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/use-latest.yml \
+  -o ~/workspace/silk-release/opsfiles/use-latest.yml \
   -o $BOSH_DIR/opsfile.yml \
   --vars-store ~/workspace/cf-networking-deployments/environments/local/deployment-vars.yml \
   -v system_domain=bosh-lite.com
