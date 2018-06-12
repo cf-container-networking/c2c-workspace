@@ -186,16 +186,16 @@ cf_target ()
     envdir=~/workspace/cf-networking-deployments/environments/$env
     system_domain="${env}.c2c.cf-app.com"
     vars_store="vars-store.yml"
+    pw=$(credhub get -n "/bosh-${env}/cf/cf_admin_password" | bosh int --path /value -)
   fi
   if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
     system_domain="bosh-lite.com"
     vars_store="deployment-vars.yml"
+    pw=$(grep cf_admin_password "${envdir}/${vars_store}" | cut -d" " -f2)
   fi
-  pushd $envdir 1>/dev/null
-    cf api api."${system_domain}" --skip-ssl-validation
-    pw=$(credhub get -n "/bosh-${env}/cf/cf_admin_password" | bosh int --path /value -)
-    cf auth admin "${pw}"
-  popd 1>/dev/null
+
+  cf api api."${system_domain}" --skip-ssl-validation
+  cf auth admin "${pw}"
 }
 
 gobosh_target ()
