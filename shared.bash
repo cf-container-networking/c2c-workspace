@@ -22,6 +22,7 @@ function main() {
     alias gbtl="gobosh_target_lite"
     alias cft="cf_target"
     alias cftl="cf_target local"
+    alias t="target"
   }
 
   function setup_environment() {
@@ -257,6 +258,13 @@ gobosh_untarget ()
   unset BOSH_DEPLOYMENT
   unset BOSH_CLIENT
   unset BOSH_CLIENT_SECRET
+}
+
+target ()
+{
+  local environment="${1}"
+  gobosh_target "${environment}"
+  cf_target "${environment}"
 }
 
 gobosh_target_lite ()
