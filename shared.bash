@@ -184,15 +184,16 @@ cf_target ()
     system_domain="${env}.routing.cf-app.com"
     vars_store="deployment-vars.yml"
   else
-    envdir=~/workspace/cf-networking-deployments/environments/$env
-    system_domain="${env}.c2c.cf-app.com"
-    vars_store="vars-store.yml"
-    pw=$(credhub get -n "/bosh-${env}/cf/cf_admin_password" | bosh int --path /value -)
-  fi
-  if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
-    system_domain="bosh-lite.com"
-    vars_store="deployment-vars.yml"
-    pw=$(grep cf_admin_password "${envdir}/${vars_store}" | cut -d" " -f2)
+    if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
+      system_domain="bosh-lite.com"
+      vars_store="deployment-vars.yml"
+      pw=$(grep cf_admin_password "${envdir}/${vars_store}" | cut -d" " -f2)
+    else
+      envdir=~/workspace/cf-networking-deployments/environments/$env
+      system_domain="${env}.c2c.cf-app.com"
+      vars_store="vars-store.yml"
+      pw=$(credhub get -n "/bosh-${env}/cf/cf_admin_password" | bosh int --path /value -)
+    fi
   fi
 
   cf api api."${system_domain}" --skip-ssl-validation
