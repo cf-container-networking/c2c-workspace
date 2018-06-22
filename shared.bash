@@ -334,14 +334,11 @@ upload_bosh_stemcell () {
 deploy_bosh_lite ()
 {
   bosh deploy --no-redact -n ~/workspace/cf-deployment/cf-deployment.yml \
-  -o ~/workspace/cf-deployment/operations/use-compiled-releases.yml \
-  -o ~/workspace/cf-deployment/operations/experimental/use-cf-networking-2.yml \
   -o ~/workspace/cf-deployment/operations/bosh-lite.yml \
   -o ~/workspace/cf-networking-deployments/environments/local/instance-count-overrides.yml \
-  -o ~/workspace/cf-deployment/operations/experimental/use-bosh-dns-for-containers-with-networking-2.yml \
+  -o ~/workspace/cf-deployment/operations/experimental/use-bosh-dns-for-containers.yml \
   -o ~/workspace/cf-deployment/operations/experimental/use-bosh-dns.yml \
   -o ~/workspace/cf-deployment/operations/experimental/enable-service-discovery.yml \
-  -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/use-service-discovery-from-cf-networking.yml \
   -o ~/workspace/cf-networking-release/manifest-generation/opsfiles/use-latest.yml \
   -o ~/workspace/silk-release/opsfiles/use-latest.yml \
   -o $BOSH_DIR/opsfile.yml \
