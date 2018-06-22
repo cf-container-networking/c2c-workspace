@@ -177,27 +177,23 @@ cf_target ()
   fi
   env=$1
   workspace=$2
-  local system_domain
-  local vars_store
-  if [ "$workspace" = "routing" ]; then
-    envdir=~/workspace/deployments-routing/$env
-    system_domain="${env}.routing.cf-app.com"
-    vars_store="deployment-vars.yml"
+
+  if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
+    password=$(grep cf_admin_password "${HOME}/workspace/cf-networking-deployments/environments/${env}/deployment-vars.yml" | cut -d" " -f2)
   else
-    if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
-      system_domain="bosh-lite.com"
-      vars_store="deployment-vars.yml"
-      pw=$(grep cf_admin_password "${envdir}/${vars_store}" | cut -d" " -f2)
-    else
-      envdir=~/workspace/cf-networking-deployments/environments/$env
-      system_domain="${env}.c2c.cf-app.com"
-      vars_store="vars-store.yml"
-      pw=$(credhub get -n "/bosh-${env}/cf/cf_admin_password" | bosh int --path /value -)
-    fi
+    password=$(credhub get -n "/bosh-${env}/cf/cf_admin_password" | bosh int --path /value -)
   fi
 
-  cf api api."${system_domain}" --skip-ssl-validation
-  cf auth admin "${pw}"
+  if [ "$workspace" = "routing" ]; then
+    system_domain="${env}.routing.cf-app.com"
+  elif [ "$env" = "local" ] || [ "$env" = "lite" ]; then
+    system_domain="bosh-lite.com"
+  else
+    system_domain="${env}.c2c.cf-app.com"
+  fi
+
+  cf api "api.${system_domain}" --skip-ssl-validation
+  cf auth admin "${password}"
 }
 
 gobosh_target ()
@@ -263,9 +259,8 @@ gobosh_untarget ()
 
 target ()
 {
-  local environment="${1}"
-  gobosh_target "${environment}"
-  cf_target "${environment}"
+  gobosh_target ${@}
+  cf_target ${@}
 }
 
 gobosh_target_lite ()
