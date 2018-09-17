@@ -136,3 +136,6 @@ nnoremap <silent> <space> :nohlsearch<CR>
 
 " fzf
 nnoremap <leader>f :FZF<CR>
+
+" Yank to system clipboard
+nnoremap <leader>y "*y
