@@ -214,9 +214,11 @@ gobosh_target ()
   fi
 
   if [[ "${BOSH_ENV}" == "ci" ]]; then
-    gsutil cp gs://c2c-bbl-states/ci ci.tgz
-    tar xf ci.tgz
-    eval "$(bbl print-env)"
+    pushd $(mktemp -d) > /dev/null
+      gsutil cp gs://c2c-bbl-states/ci ci.tgz
+      tar xf ci.tgz
+      eval "$(bbl print-env)"
+    popd > /dev/null
     export BOSH_DEPLOYMENT="concourse"
     return
   fi
