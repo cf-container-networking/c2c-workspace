@@ -24,7 +24,7 @@ override_git_prompt_colors() {
 }
 
 gobosh_target_prompt() {
-  basename "${BOSH_DIR%bbl-state}"
+  basename "${BOSH_ENV}"
 }
 
 # load the theme

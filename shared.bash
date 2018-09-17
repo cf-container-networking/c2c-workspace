@@ -178,6 +178,11 @@ cf_target ()
   env=$1
   workspace=$2
 
+  if [ "$env" = "ci" ]; then
+    echo "no CF deployed in ci env."
+    return
+  fi
+
   if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
     password=$(grep cf_admin_password "${HOME}/workspace/cf-networking-deployments/environments/${env}/deployment-vars.yml" | cut -d" " -f2)
   else
@@ -202,27 +207,27 @@ gobosh_target ()
   if [ $# = 0 ]; then
     return
   fi
-  env=$1
-  if [ "$env" = "local" ] || [ "$env" = "lite" ]; then
+  export BOSH_ENV=$1
+  if [ "$BOSH_ENV" = "local" ] || [ "$BOSH_ENV" = "lite" ]; then
     gobosh_target_lite
     return
   fi
 
-  if [[ "${env}" == "ci" ]]; then
-    echo "Retrieving bbl-env from lastpass: Shared-CF-Networking (OSS)/ci-bbl-env/ci"
-    echo "If the creds don't work. Run refresh_lastpass_ci_envs"
-    eval "$(lpass show 'Shared-CF-Networking (OSS)/ci-bbl-env/ci' --note)"
+  if [[ "${BOSH_ENV}" == "ci" ]]; then
+    gsutil cp gs://c2c-bbl-states/ci ci.tgz
+    tar xf ci.tgz
+    eval "$(bbl print-env)"
     export BOSH_DEPLOYMENT="concourse"
     return
   fi
 
   workspace=$2
   if [ "$workspace" = "pcf" ]; then
-    export BOSH_DIR=~/workspace/pcf-networking-deployments/environments/$env
+    export BOSH_DIR=~/workspace/pcf-networking-deployments/environments/$BOSH_ENV
   elif [ "$workspace" = "routing" ]; then
-    export BOSH_DIR=~/workspace/deployments-routing/$env/bbl-state
+    export BOSH_DIR=~/workspace/deployments-routing/$BOSH_ENV/bbl-state
   else
-    export BOSH_DIR=~/workspace/cf-networking-deployments/environments/$env
+    export BOSH_DIR=~/workspace/cf-networking-deployments/environments/$BOSH_ENV
   fi
 
   pushd $BOSH_DIR 1>/dev/null
@@ -232,19 +237,9 @@ gobosh_target ()
   export BOSH_DEPLOYMENT="cf"
 }
 
-refresh_lastpass_ci_envs ()
-{
-  local temp_dir="$(mktemp -d)"
-  pushd "${temp_dir}" > /dev/null
-    gsutil cp gs://c2c-bbl-states/ci ci.tgz
-    tar xf ci.tgz
-    echo "$(bbl print-env)" | lpass edit --non-interactive --notes 'Shared-CF-Networking (OSS)/ci-bbl-env/ci'
-    echo "Updated ci bbl env in lastpass."
-  popd > /dev/null
-}
-
 gobosh_untarget ()
 {
+  unset BOSH_ENV
   unset BOSH_DIR
   unset BOSH_USER
   unset BOSH_PASSWORD
