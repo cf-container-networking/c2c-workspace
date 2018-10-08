@@ -422,6 +422,47 @@ function story() {
   printf "\n\n[$1]$STORY_TITLE" > ~/.git-tracker-story
 }
 
+default_hours() {
+  local current_hour=$(date +%H | sed 's/^0//')
+  local result=$((17 - current_hour))
+  if [[ ${result} -lt 1 ]]; then
+    result=1
+  fi
+  echo -n ${result}
+}
+
+set_key() {
+  local hours=$1
+
+  /usr/bin/ssh-add -D
+
+  echo "Setting hours to: $hours"
+  lpass show --notes 'ProductivityTools/id_rsa' | /usr/bin/ssh-add -t ${hours}H -
+}
+
+set-git-keys() {
+  local email=$1
+  local hours=$2
+
+  if [[ -z ${email} ]]; then
+    echo "Usage: $0 [LastPass email or git author initials] [HOURS (optional)]"
+    return
+  fi
+
+  if git_author_path "/authors/$email" >/dev/null 2>&1; then
+    echo "Adding key for $(bosh int ${HOME}/.git-authors --path="/authors/$email" | sed 's/;.*//')"
+    email="$(bosh int ${HOME}/.git-authors --path="/authors/$email" | sed 's/;.*//')@$(bosh int ${HOME}/.git-authors --path="/email/domain")"
+  fi
+
+  if [[ -z ${hours} ]]; then
+    hours=$(default_hours)
+  fi
+
+  if ! [[ $(lpass status) =~ $email ]]; then
+    lpass login "$email"
+  fi
+  set_key ${hours}
+}
 
 main
 unset -f main
