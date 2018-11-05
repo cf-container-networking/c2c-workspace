@@ -148,6 +148,10 @@ GOPATH="${HOME}/go" go get -u github.com/onsi/gomega
 
 echo "Install counterfeiter..."
 GOPATH="${HOME}/go" go get -u github.com/maxbrunsfeld/counterfeiter
+pushd $HOME/go/src/github.com/maxbrunsfeld/counterfeiter/
+git checkout v5
+popd
+GOPATH="${HOME}/go" go get github.com/maxbrunsfeld/counterfeiter
 
 echo "Install deployment extractor..."
 GOPATH="${HOME}/go" go get -u github.com/kkallday/deployment-extractor
