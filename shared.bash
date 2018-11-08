@@ -23,6 +23,10 @@ function main() {
     alias cft="cf_target"
     alias cftl="cf_target local"
     alias t="target"
+
+    alias rg="ag"
+
+    alias h?="history | grep"
   }
 
   function setup_environment() {
@@ -462,6 +466,67 @@ set-git-keys() {
     lpass login "$email"
   fi
   set_key ${hours}
+}
+
+function current_branch() { # Gets current branch
+  git rev-parse --abbrev-ref HEAD
+}
+function parse_branch() { # Gets current branch with parens around it for some legacy things
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+function gh_remote_path() { # Parses the 'remote path' of the repo: username/repo
+  GH_PATH=`git remote -v | tr ':' ' ' | tr '.' ' ' | awk '/push/ {print $4}'`
+  echo ${GH_PATH#com/}
+}
+function gh() { # Opens current branch on Github, works for all repos
+  echo 'Opening branch on Github...'
+  open "https://github.com/$(gh_remote_path)/tree/$(current_branch)"
+}
+function newpr() { # Opens current branch on Github in the "Open a pull request" compare view
+  echo 'Opening compare on Github...'
+  open "https://github.com/$(gh_remote_path)/compare/$(current_branch)?expand=1"
+}
+function gpu() { # Push upstream
+  git push --set-upstream origin `current_branch`
+}
+
+function mkd() { # Create a new directory and enter it
+  mkdir -p "$@" && cd "$_";
+}
+function loop() { # Repeats a given command forever
+  local i=2 t=1 cond
+
+  [ -z ${1//[0-9]/} ] && i=$1 && shift
+  [ -z ${1//[0-9]/} ] && t=$1 && shift && cond=1
+  while [ $t -gt 0 ]; do
+    sleep $i
+    [ $cond ] && : $[--t]
+    $@
+  done
+}
+function server() { # Create webserver from current directory
+  local port="${1:-8000}";
+  sleep 1 && open "http://localhost:${port}/" &
+  # Set the default Content-Type to `text/plain` instead of `application/octet-stream`
+  # And serve everything as UTF-8 (although not technically correct, this doesn’t break anything for binary files)
+  python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port";
+}
+
+function nuke() { # Straight up murders all processes matching first arg
+  ps ax | grep $1 | awk '{print $1}' | xargs kill -9
+}
+function politely_nuke() { # As above but nicely
+  ps ax | grep $1 | awk '{print $1}' | xargs kill
+}
+function smart_bomb() { # Don't use this
+  killall -15 $1 2> /dev/null || killall -2 $1 2> /dev/null || killall -1 $1 2> /dev/null || killall -9 $1 2> /dev/null
+}
+function clear_port() { # Finds whatever is using a given port (except chrome) and kills it
+  lsof -t -i tcp:$1 | ag -v "$(ps aux|ag Chrome|tr -s ' '|cut -d ' ' -f 2|fmt -1024|tr ' ' '|')"| xargs kill -9
+}
+
+function v() { # Use fasd to open a file in vim from anywhere
+  nvim `f "$1" | awk "{print $2}"`
 }
 
 main
