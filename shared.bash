@@ -27,6 +27,7 @@ function main() {
     alias rg="ag"
 
     alias h?="history | grep"
+    alias chg="credhub-get"
   }
 
   function setup_environment() {
@@ -527,6 +528,10 @@ function clear_port() { # Finds whatever is using a given port (except chrome) a
 
 function v() { # Use fasd to open a file in vim from anywhere
   nvim `f "$1" | awk "{print $2}"`
+}
+
+credhub-get() {
+  credhub get -n `credhub find -n "$1" | grep "name" | head -n 1 | sed 's/- name: //'`
 }
 
 main
