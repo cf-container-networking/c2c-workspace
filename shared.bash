@@ -476,12 +476,16 @@ function parse_branch() { # Gets current branch with parens around it for some l
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 function gh_remote_path() { # Parses the 'remote path' of the repo: username/repo
-  GH_PATH=`git remote -v | tr ':' ' ' | tr '.' ' ' | awk '/push/ {print $4}'`
+  REMOTE=${1:-origin}
+
+  GH_PATH=`git remote -v | tr ':' ' ' | tr '.' ' ' | grep $REMOTE | awk '/push/ {print $4}'`
   echo ${GH_PATH#com/}
 }
 function gh() { # Opens current branch on Github, works for all repos
+  REMOTE=${1:-origin}
+
   echo 'Opening branch on Github...'
-  open "https://github.com/$(gh_remote_path)/tree/$(current_branch)"
+  open "https://github.com/$(gh_remote_path $REMOTE)/tree/$(current_branch)"
 }
 function newpr() { # Opens current branch on Github in the "Open a pull request" compare view
   echo 'Opening compare on Github...'
