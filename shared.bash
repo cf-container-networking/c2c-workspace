@@ -538,6 +538,11 @@ credhub-get() {
   credhub get -n `credhub find -n "$1" | grep "name" | head -n 1 | sed 's/- name: //'`
 }
 
+function standup() {
+  open "https://pivotal.zoom.us/j/589840978"
+  open "https://pair.ist/cf-networking/current"
+}
+
 main
 unset -f main
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
