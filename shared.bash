@@ -27,7 +27,7 @@ function main() {
     alias rg="ag"
 
     alias h?="history | grep"
-    alias chg="credhub-get"
+    alias chg="credhub_get"
   }
 
   function setup_environment() {
@@ -534,7 +534,7 @@ function v() { # Use fasd to open a file in vim from anywhere
   nvim `f "$1" | awk "{print $2}"`
 }
 
-credhub-get() {
+function credhub_get() {
   credhub get -n `credhub find -n "$1" | grep "name" | head -n 1 | sed 's/- name: //'`
 }
 
