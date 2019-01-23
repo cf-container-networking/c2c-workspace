@@ -543,6 +543,51 @@ function standup() {
   open "https://pair.ist/cf-networking/current"
 }
 
+function toolsmiths() {
+  echo "Opening https://environments.toolsmiths.cf-app.com..."
+  open https://environments.toolsmiths.cf-app.com
+  echo "NOTE: Run create_service_account_key_for_toolsmiths_env <story_id>"
+  echo "      to create a service account with a key for toolsmiths env."
+}
+
+function create_service_account_key_for_toolsmiths_env() {
+  if [[ $# != 1 ]]; then
+    echo "Usage: create_service_account_key_for_toolsmiths_env <story_id>"
+    return 1
+  fi
+
+  local story_id="${1}"
+  local service_account_name="opsman-${story_id}"
+  local service_account_email="${service_account_name}@cf-container-networking-gcp.iam.gserviceaccount.com"
+  local gcp_project_name="cf-container-networking-gcp"
+  local key_file_name="$(mktemp)"
+
+  gcloud iam service-accounts create "${service_account_name}" \
+    --display-name "${service_account_name}" 1> /dev/null
+  gcloud projects add-iam-policy-binding "${gcp_project_name}" \
+    --member "serviceAccount:${service_account_email}" \
+    --role roles/editor 1> /dev/null
+  gcloud iam service-accounts keys create "${key_file_name}" \
+    --iam-account "${service_account_email}" 1> /dev/null
+
+  echo "NOTE: Remember to clean up your key after your done using remove_service_account_key_for_toolsmiths_env." 1>&2
+
+  cat "${key_file_name}"
+  rm "${key_file_name}"
+}
+
+function remove_service_account_key_for_toolsmiths_env() {
+  if [[ $# != 1 ]]; then
+    echo "Usage: remove_service_account_key_for_toolsmiths_env <story_id>"
+    return 1
+  fi
+
+  local story_id="${1}"
+  local service_account_email="opsman-${story_id}@cf-container-networking-gcp.iam.gserviceaccount.com"
+
+  gcloud iam service-accounts delete "${service_account_email}"
+}
+
 main
 unset -f main
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
